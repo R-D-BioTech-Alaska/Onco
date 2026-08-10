@@ -1,0 +1,21 @@
+{
+  "profile": "melanoma_cutaneous",
+  "cocktail": "",
+  "steps": 120,
+  "healthy": 300,
+  "cancer": 100,
+  "seed": 1729,
+  "profile_strength": 1.0,
+  "profile_heterogeneity": 0.15,
+  "immune_pressure": null,
+  "mutation_rate": null,
+  "run_simulation": true,
+  "auto_select_cocktail": true,
+  "include_qsa": true,
+  "include_research_loop_plan": true,
+  "max_auto_experiments": 5,
+  "max_qsa_candidates": 12,
+  "max_marker_qubits": 16,
+  "max_component_states": 4096
+}
+

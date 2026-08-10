@@ -1,0 +1,646 @@
+[
+  {
+    "id": "generic_p53_loss_carcinoma",
+    "display_name": "Generic p53-loss carcinoma",
+    "category": "solid_tumor",
+    "tags": ["solid tumor", "death-resistance", "baseline model"],
+    "description": "A generic carcinoma-like simulation profile with weakened p53 checkpoint behavior, replication stress, and apoptosis resistance. This is a modeling preset, not a diagnostic category.",
+    "evidence_label": "supported_model",
+    "typical_markers": {
+      "growth_signaling": ["REPLICATION_STRESS", "RB_INACTIVE"],
+      "death_resistance": ["P53_INACTIVE", "CASPASE_BLOCKED"],
+      "immune_visibility": ["NEOANTIGEN_PRESENT"],
+      "immune_evasion": ["PD_L1_HIGH"],
+      "metabolic_stress": ["LACTATE_HIGH"]
+    },
+    "default_signal_biases": {
+      "P53_INACTIVE": 0.90,
+      "DNA_DAMAGE_HIGH": 0.58,
+      "REPLICATION_STRESS": 0.72,
+      "RB_INACTIVE": 0.55,
+      "CASPASE_BLOCKED": 0.68,
+      "NEOANTIGEN_PRESENT": 0.55,
+      "PD_L1_HIGH": 0.45,
+      "LACTATE_HIGH": 0.55
+    },
+    "default_pathway_biases": {
+      "p53_active": 0.05,
+      "rb_active": 0.45,
+      "caspase_accessible": 0.32,
+      "checkpoint_strength": 0.22
+    },
+    "microenvironment_biases": {
+      "oxygen": 0.82,
+      "acidity": 0.18,
+      "inflammation": 0.20,
+      "immune_pressure": 0.35,
+      "stromal_barrier": 0.18,
+      "vascular_support": 0.40
+    },
+    "expected_vulnerabilities": ["death_pathway", "immune_visibility", "cell_cycle_checkpoint"],
+    "possible_escape_modes": ["apoptosis resistance", "checkpoint bypass", "PD-L1 increase"],
+    "starter_cocktails": ["Damage-to-death cascade", "Immune visibility starter"],
+    "notes": "Simplified p53-loss-like behavior for software exploration only."
+  },
+  {
+    "id": "mmr_deficient_high_neoantigen",
+    "display_name": "MMR-deficient high-neoantigen tumor",
+    "category": "solid_tumor",
+    "tags": ["solid tumor", "immune-visible", "DNA-repair-defective"],
+    "description": "A repair-defective, high-neoantigen simulation profile that tends to be visible to immune modules but can also express checkpoint-like immune brakes.",
+    "evidence_label": "supported_model",
+    "typical_markers": {
+      "DNA_repair_defect": ["MMR_DEFECT", "DNA_DAMAGE_HIGH"],
+      "immune_visibility": ["NEOANTIGEN_PRESENT", "STING_DNA_SENSING"],
+      "immune_evasion": ["PD_L1_HIGH"],
+      "growth_signaling": ["REPLICATION_STRESS"]
+    },
+    "default_signal_biases": {
+      "MMR_DEFECT": 0.88,
+      "NEOANTIGEN_PRESENT": 0.92,
+      "PD_L1_HIGH": 0.65,
+      "DNA_DAMAGE_HIGH": 0.62,
+      "REPLICATION_STRESS": 0.62,
+      "STING_DNA_SENSING": 0.70,
+      "STRESS_LIGAND_HIGH": 0.60
+    },
+    "default_pathway_biases": {
+      "mmr_active": 0.12,
+      "p53_active": 0.45,
+      "caspase_accessible": 0.45,
+      "checkpoint_strength": 0.38
+    },
+    "microenvironment_biases": {
+      "oxygen": 0.80,
+      "acidity": 0.20,
+      "inflammation": 0.35,
+      "immune_pressure": 0.50,
+      "stromal_barrier": 0.20,
+      "vascular_support": 0.45
+    },
+    "expected_vulnerabilities": ["immune_checkpoint", "immune_visibility", "innate_DNA_sensing"],
+    "possible_escape_modes": ["PD-L1 increase", "antigen presentation loss", "stress ligand reduction"],
+    "starter_cocktails": ["Immune visibility starter", "Innate immune cleanup bath"],
+    "notes": "Represents a qualitative high-mutational-signal model, not patient-level immunotherapy prediction."
+  },
+  {
+    "id": "mhc_low_immune_escape",
+    "display_name": "MHC-low immune escape tumor",
+    "category": "solid_tumor",
+    "tags": ["solid tumor", "immune-evasive", "immune-visible"],
+    "description": "A profile for tumors that have reduced antigen presentation but retain stress-ligand and innate-immune visibility signals.",
+    "evidence_label": "supported_model",
+    "typical_markers": {
+      "immune_evasion": ["MHC_LOW", "PD_L1_HIGH"],
+      "immune_visibility": ["STRESS_LIGAND_HIGH", "CD47_DONT_EAT_ME"],
+      "death_resistance": ["CASPASE_BLOCKED"]
+    },
+    "default_signal_biases": {
+      "MHC_LOW": 0.88,
+      "STRESS_LIGAND_HIGH": 0.78,
+      "PD_L1_HIGH": 0.72,
+      "CD47_DONT_EAT_ME": 0.62,
+      "CASPASE_BLOCKED": 0.68,
+      "NEOANTIGEN_PRESENT": 0.62
+    },
+    "default_pathway_biases": {
+      "p53_active": 0.20,
+      "rb_active": 0.40,
+      "caspase_accessible": 0.28,
+      "checkpoint_strength": 0.25
+    },
+    "microenvironment_biases": {
+      "oxygen": 0.75,
+      "acidity": 0.25,
+      "inflammation": 0.45,
+      "immune_pressure": 0.55,
+      "stromal_barrier": 0.25,
+      "vascular_support": 0.42
+    },
+    "expected_vulnerabilities": ["nk_stress_response", "macrophage_cleanup", "immune_visibility"],
+    "possible_escape_modes": ["stress ligand loss", "CD47-like increase", "checkpoint pressure"],
+    "starter_cocktails": ["NK stress-response swarm", "Innate immune cleanup bath"],
+    "notes": "A conceptual immune-editing profile; not all immune-evasive tumors behave this way."
+  },
+  {
+    "id": "brca_defective_repair_stressed",
+    "display_name": "BRCA-defective repair-stressed tumor",
+    "category": "solid_tumor",
+    "tags": ["solid tumor", "DNA-repair-defective"],
+    "description": "A homologous-repair-defective simulation profile with DNA damage, PARP dependence, and replication stress.",
+    "evidence_label": "supported_model",
+    "typical_markers": {
+      "DNA_repair_defect": ["BRCA_DEFECT", "PARP_DEPENDENCE", "DNA_DAMAGE_HIGH"],
+      "growth_signaling": ["REPLICATION_STRESS"],
+      "immune_visibility": ["STING_DNA_SENSING", "STRESS_LIGAND_HIGH"]
+    },
+    "default_signal_biases": {
+      "BRCA_DEFECT": 0.92,
+      "PARP_DEPENDENCE": 0.78,
+      "DNA_DAMAGE_HIGH": 0.82,
+      "REPLICATION_STRESS": 0.68,
+      "STING_DNA_SENSING": 0.72,
+      "STRESS_LIGAND_HIGH": 0.68
+    },
+    "default_pathway_biases": {
+      "brca_active": 0.08,
+      "p53_active": 0.35,
+      "caspase_accessible": 0.45,
+      "checkpoint_strength": 0.44
+    },
+    "microenvironment_biases": {
+      "oxygen": 0.82,
+      "acidity": 0.18,
+      "inflammation": 0.30,
+      "immune_pressure": 0.42,
+      "stromal_barrier": 0.18,
+      "vascular_support": 0.45
+    },
+    "expected_vulnerabilities": ["DNA_repair_vulnerability", "death_pathway", "innate_DNA_sensing"],
+    "possible_escape_modes": ["repair restoration-like drift", "apoptosis resistance", "lower DNA damage signal"],
+    "starter_cocktails": ["Damage-to-death cascade", "Stress death pressure bath"],
+    "notes": "Synthetic-lethality style behavior is qualitative and not calibrated."
+  },
+  {
+    "id": "hypoxic_invasive_solid_tumor",
+    "display_name": "Hypoxic invasive solid tumor",
+    "category": "solid_tumor",
+    "tags": ["solid tumor", "hypoxic/metabolic", "stromal-barrier-heavy"],
+    "description": "A profile with hypoxia tolerance, acidity/lactate output, invasion pressure, and stromal barrier effects.",
+    "evidence_label": "supported_model",
+    "typical_markers": {
+      "metabolic_stress": ["HYPOXIA_HIGH", "LACTATE_HIGH", "AUTOPHAGY_DEPENDENCE"],
+      "microenvironment": ["ECM_INVASION_HIGH", "ANGIOGENESIS_SIGNAL"],
+      "immune_evasion": ["PD_L1_HIGH"]
+    },
+    "default_signal_biases": {
+      "HYPOXIA_HIGH": 0.86,
+      "LACTATE_HIGH": 0.86,
+      "AUTOPHAGY_DEPENDENCE": 0.78,
+      "ECM_INVASION_HIGH": 0.82,
+      "ANGIOGENESIS_SIGNAL": 0.76,
+      "PD_L1_HIGH": 0.52,
+      "CASPASE_BLOCKED": 0.74
+    },
+    "default_pathway_biases": {
+      "p53_active": 0.18,
+      "rb_active": 0.35,
+      "caspase_accessible": 0.22,
+      "checkpoint_strength": 0.20
+    },
+    "microenvironment_biases": {
+      "oxygen": 0.48,
+      "acidity": 0.55,
+      "inflammation": 0.38,
+      "immune_pressure": 0.32,
+      "stromal_barrier": 0.62,
+      "vascular_support": 0.30
+    },
+    "expected_vulnerabilities": ["hypoxia_gate", "metabolic_stress", "microenvironment_access"],
+    "possible_escape_modes": ["autophagy adaptation", "matrix barrier persistence", "low immune visibility"],
+    "starter_cocktails": ["Hypoxic tumor bath", "Stress death pressure bath"],
+    "notes": "Useful for stress-testing microenvironment-heavy behavior, not a clinical invasive-tumor model."
+  },
+  {
+    "id": "melanoma_cutaneous",
+    "display_name": "Cutaneous Melanoma",
+    "category": "solid_tumor",
+    "tags": ["solid tumor", "immune-visible", "immune-evasive"],
+    "description": "A cutaneous melanoma-inspired simulation profile with relatively high neoantigen visibility, immune checkpoint pressure, and possible stress-ligand/NK sensitivity.",
+    "evidence_label": "supported_model",
+    "typical_markers": {
+      "immune_visibility": ["NEOANTIGEN_PRESENT", "STRESS_LIGAND_HIGH"],
+      "immune_evasion": ["PD_L1_HIGH", "MHC_LOW"],
+      "growth_signaling": ["RB_INACTIVE", "REPLICATION_STRESS"],
+      "death_resistance": ["CASPASE_BLOCKED"],
+      "metabolic_stress": ["LACTATE_HIGH"],
+      "microenvironment": ["HYPOXIA_HIGH"]
+    },
+    "default_signal_biases": {
+      "NEOANTIGEN_PRESENT": 0.75,
+      "PD_L1_HIGH": 0.55,
+      "MHC_LOW": 0.35,
+      "STRESS_LIGAND_HIGH": 0.45,
+      "DNA_DAMAGE_HIGH": 0.40,
+      "REPLICATION_STRESS": 0.50,
+      "CASPASE_BLOCKED": 0.50,
+      "LACTATE_HIGH": 0.35
+    },
+    "default_pathway_biases": {
+      "p53_active": 0.65,
+      "rb_active": 0.65,
+      "caspase_accessible": 0.55,
+      "checkpoint_strength": 0.50
+    },
+    "microenvironment_biases": {
+      "oxygen": 0.80,
+      "acidity": 0.20,
+      "inflammation": 0.35,
+      "immune_pressure": 0.45,
+      "stromal_barrier": 0.25,
+      "vascular_support": 0.55
+    },
+    "expected_vulnerabilities": ["immune_checkpoint", "nk_stress_response", "immune_visibility"],
+    "possible_escape_modes": ["MHC loss", "PD-L1 increase", "low stress ligand expression"],
+    "starter_cocktails": ["Immune visibility starter", "NK stress-response swarm"],
+    "notes": "Melanoma biology is heterogeneous; this is only a marker-rich simulation preset."
+  },
+  {
+    "id": "nsclc_immune_visible",
+    "display_name": "Non-small cell lung cancer, immune-visible profile",
+    "category": "solid_tumor",
+    "tags": ["solid tumor", "immune-visible", "immune-evasive"],
+    "description": "An NSCLC-inspired immune-visible model with neoantigen/checkpoint signals and moderate growth-driver pressure.",
+    "evidence_label": "supported_model",
+    "typical_markers": {
+      "immune_visibility": ["NEOANTIGEN_PRESENT", "STING_DNA_SENSING"],
+      "immune_evasion": ["PD_L1_HIGH"],
+      "growth_signaling": ["REPLICATION_STRESS"],
+      "death_resistance": ["CASPASE_BLOCKED"]
+    },
+    "default_signal_biases": {
+      "NEOANTIGEN_PRESENT": 0.70,
+      "PD_L1_HIGH": 0.70,
+      "REPLICATION_STRESS": 0.58,
+      "DNA_DAMAGE_HIGH": 0.55,
+      "STING_DNA_SENSING": 0.55,
+      "CASPASE_BLOCKED": 0.50
+    },
+    "default_pathway_biases": {
+      "p53_active": 0.35,
+      "rb_active": 0.55,
+      "caspase_accessible": 0.50,
+      "checkpoint_strength": 0.42
+    },
+    "microenvironment_biases": {
+      "oxygen": 0.74,
+      "acidity": 0.24,
+      "inflammation": 0.40,
+      "immune_pressure": 0.48,
+      "stromal_barrier": 0.30,
+      "vascular_support": 0.50
+    },
+    "expected_vulnerabilities": ["immune_checkpoint", "immune_visibility", "growth_control"],
+    "possible_escape_modes": ["checkpoint increase", "antigen presentation reduction", "driver-like proliferation"],
+    "starter_cocktails": ["Immune visibility starter", "Full conceptual swarm"],
+    "notes": "NSCLC is not one biology; this profile is a narrow immune-visible abstraction."
+  },
+  {
+    "id": "colorectal_mmr_deficient",
+    "display_name": "Colorectal cancer, MMR-deficient profile",
+    "category": "solid_tumor",
+    "tags": ["solid tumor", "immune-visible", "DNA-repair-defective"],
+    "description": "A colorectal-inspired MMR-deficient profile with high neoantigen output and checkpoint/immune pressure.",
+    "evidence_label": "supported_model",
+    "typical_markers": {
+      "DNA_repair_defect": ["MMR_DEFECT", "DNA_DAMAGE_HIGH"],
+      "immune_visibility": ["NEOANTIGEN_PRESENT"],
+      "immune_evasion": ["PD_L1_HIGH"],
+      "surface_context": ["COMPLEMENT_SUSCEPTIBLE"]
+    },
+    "default_signal_biases": {
+      "MMR_DEFECT": 0.90,
+      "NEOANTIGEN_PRESENT": 0.88,
+      "PD_L1_HIGH": 0.60,
+      "DNA_DAMAGE_HIGH": 0.62,
+      "COMPLEMENT_SUSCEPTIBLE": 0.45,
+      "MUCIN_ABNORMAL": 0.72
+    },
+    "default_pathway_biases": {
+      "mmr_active": 0.10,
+      "p53_active": 0.42,
+      "caspase_accessible": 0.48,
+      "checkpoint_strength": 0.40
+    },
+    "microenvironment_biases": {
+      "oxygen": 0.78,
+      "acidity": 0.22,
+      "inflammation": 0.42,
+      "immune_pressure": 0.50,
+      "stromal_barrier": 0.30,
+      "vascular_support": 0.45
+    },
+    "expected_vulnerabilities": ["immune_visibility", "immune_checkpoint", "innate_cleanup"],
+    "possible_escape_modes": ["antigen loss", "PD-L1 increase", "surface-marker drift"],
+    "starter_cocktails": ["Immune visibility starter", "Innate immune cleanup bath"],
+    "notes": "Designed to overlap with, but not replace, the generic MMR-deficient profile."
+  },
+  {
+    "id": "tnbc_conceptual",
+    "display_name": "Triple-negative breast cancer conceptual profile",
+    "category": "solid_tumor",
+    "tags": ["solid tumor", "DNA-repair-defective", "immune-visible"],
+    "description": "A TNBC-inspired conceptual profile with replication stress, DNA damage, variable immune visibility, and apoptosis resistance.",
+    "evidence_label": "inferred_interaction",
+    "typical_markers": {
+      "DNA_repair_defect": ["DNA_DAMAGE_HIGH", "BRCA_DEFECT"],
+      "growth_signaling": ["REPLICATION_STRESS", "RB_INACTIVE"],
+      "immune_visibility": ["STRESS_LIGAND_HIGH"],
+      "death_resistance": ["CASPASE_BLOCKED"]
+    },
+    "default_signal_biases": {
+      "DNA_DAMAGE_HIGH": 0.70,
+      "BRCA_DEFECT": 0.55,
+      "PARP_DEPENDENCE": 0.55,
+      "REPLICATION_STRESS": 0.72,
+      "STRESS_LIGAND_HIGH": 0.62,
+      "CASPASE_BLOCKED": 0.62,
+      "PD_L1_HIGH": 0.42
+    },
+    "default_pathway_biases": {
+      "brca_active": 0.35,
+      "p53_active": 0.25,
+      "rb_active": 0.45,
+      "caspase_accessible": 0.38
+    },
+    "microenvironment_biases": {
+      "oxygen": 0.70,
+      "acidity": 0.32,
+      "inflammation": 0.36,
+      "immune_pressure": 0.38,
+      "stromal_barrier": 0.34,
+      "vascular_support": 0.42
+    },
+    "expected_vulnerabilities": ["DNA_repair_vulnerability", "nk_stress_response", "death_pathway"],
+    "possible_escape_modes": ["repair adaptation", "apoptosis resistance", "immune visibility loss"],
+    "starter_cocktails": ["Damage-to-death cascade", "NK stress-response swarm"],
+    "notes": "A conceptual high-stress breast-cancer preset; not a subtype classifier."
+  },
+  {
+    "id": "pancreatic_stromal_barrier",
+    "display_name": "Pancreatic ductal adenocarcinoma stromal-barrier profile",
+    "category": "solid_tumor",
+    "tags": ["solid tumor", "stromal-barrier-heavy", "hypoxic/metabolic", "immune-evasive"],
+    "description": "A PDAC-inspired simulation profile emphasizing stromal barrier, hypoxia/acidity, lower immune access, and invasive protease signals.",
+    "evidence_label": "supported_model",
+    "typical_markers": {
+      "microenvironment": ["ECM_INVASION_HIGH", "HYPOXIA_HIGH", "LACTATE_HIGH"],
+      "immune_evasion": ["PD_L1_HIGH", "CD47_DONT_EAT_ME"],
+      "death_resistance": ["CASPASE_BLOCKED"]
+    },
+    "default_signal_biases": {
+      "ECM_INVASION_HIGH": 0.78,
+      "HYPOXIA_HIGH": 0.78,
+      "LACTATE_HIGH": 0.76,
+      "AUTOPHAGY_DEPENDENCE": 0.68,
+      "PD_L1_HIGH": 0.55,
+      "CD47_DONT_EAT_ME": 0.60,
+      "CASPASE_BLOCKED": 0.66,
+      "TUMOR_PROTEASE_ACTIVITY": 0.85
+    },
+    "default_pathway_biases": {
+      "p53_active": 0.20,
+      "rb_active": 0.45,
+      "caspase_accessible": 0.30,
+      "checkpoint_strength": 0.25
+    },
+    "microenvironment_biases": {
+      "oxygen": 0.45,
+      "acidity": 0.58,
+      "inflammation": 0.35,
+      "immune_pressure": 0.25,
+      "stromal_barrier": 0.82,
+      "vascular_support": 0.28
+    },
+    "expected_vulnerabilities": ["microenvironment_access", "hypoxia_gate", "innate_cleanup"],
+    "possible_escape_modes": ["matrix barrier persistence", "low immune pressure", "hypoxia adaptation"],
+    "starter_cocktails": ["Hypoxic tumor bath", "Innate immune cleanup bath"],
+    "notes": "A stromal-barrier simulation challenge, not a clinical PDAC treatment guide."
+  },
+  {
+    "id": "glioblastoma_hypoxic_invasive",
+    "display_name": "Glioblastoma hypoxic/invasive profile",
+    "category": "solid_tumor",
+    "tags": ["solid tumor", "hypoxic/metabolic", "stromal-barrier-heavy"],
+    "description": "A glioblastoma-inspired profile with invasion, hypoxia tolerance, proteostasis stress, and immune-suppression-like pressure.",
+    "evidence_label": "inferred_interaction",
+    "typical_markers": {
+      "microenvironment": ["ECM_INVASION_HIGH", "HYPOXIA_HIGH"],
+      "metabolic_stress": ["AUTOPHAGY_DEPENDENCE", "PROTEASOME_STRESS"],
+      "immune_evasion": ["PD_L1_HIGH", "MHC_LOW"]
+    },
+    "default_signal_biases": {
+      "ECM_INVASION_HIGH": 0.86,
+      "HYPOXIA_HIGH": 0.74,
+      "AUTOPHAGY_DEPENDENCE": 0.72,
+      "PROTEASOME_STRESS": 0.60,
+      "PD_L1_HIGH": 0.52,
+      "MHC_LOW": 0.45,
+      "CASPASE_BLOCKED": 0.64
+    },
+    "default_pathway_biases": {
+      "p53_active": 0.30,
+      "rb_active": 0.42,
+      "caspase_accessible": 0.35,
+      "checkpoint_strength": 0.28
+    },
+    "microenvironment_biases": {
+      "oxygen": 0.50,
+      "acidity": 0.42,
+      "inflammation": 0.30,
+      "immune_pressure": 0.22,
+      "stromal_barrier": 0.58,
+      "vascular_support": 0.35
+    },
+    "expected_vulnerabilities": ["anti_invasion", "hypoxia_gate", "stress_adaptation"],
+    "possible_escape_modes": ["diffuse invasion", "hypoxia adaptation", "low immune visibility"],
+    "starter_cocktails": ["Hypoxic tumor bath", "Stress death pressure bath"],
+    "notes": "Models invasive/hypoxic pressure only; it is not a brain-tumor therapy model."
+  },
+  {
+    "id": "ovarian_hr_deficient",
+    "display_name": "Ovarian HR-deficient profile",
+    "category": "solid_tumor",
+    "tags": ["solid tumor", "DNA-repair-defective"],
+    "description": "An ovarian-cancer-inspired homologous-recombination-deficient simulation profile with PARP dependence and genomic damage signals.",
+    "evidence_label": "supported_model",
+    "typical_markers": {
+      "DNA_repair_defect": ["BRCA_DEFECT", "PARP_DEPENDENCE", "DNA_DAMAGE_HIGH"],
+      "immune_visibility": ["STING_DNA_SENSING"],
+      "death_resistance": ["CASPASE_BLOCKED"]
+    },
+    "default_signal_biases": {
+      "BRCA_DEFECT": 0.84,
+      "PARP_DEPENDENCE": 0.82,
+      "DNA_DAMAGE_HIGH": 0.75,
+      "STING_DNA_SENSING": 0.65,
+      "REPLICATION_STRESS": 0.60,
+      "CASPASE_BLOCKED": 0.50
+    },
+    "default_pathway_biases": {
+      "brca_active": 0.12,
+      "p53_active": 0.30,
+      "caspase_accessible": 0.48,
+      "checkpoint_strength": 0.38
+    },
+    "microenvironment_biases": {
+      "oxygen": 0.76,
+      "acidity": 0.24,
+      "inflammation": 0.34,
+      "immune_pressure": 0.40,
+      "stromal_barrier": 0.32,
+      "vascular_support": 0.46
+    },
+    "expected_vulnerabilities": ["DNA_repair_vulnerability", "innate_DNA_sensing", "death_pathway"],
+    "possible_escape_modes": ["repair restoration-like drift", "replication stress reduction", "apoptosis resistance"],
+    "starter_cocktails": ["Damage-to-death cascade", "Stress death pressure bath"],
+    "notes": "HR-deficiency is represented qualitatively and does not predict real response."
+  },
+  {
+    "id": "prostate_androgen_driven_conceptual",
+    "display_name": "Prostate androgen-driven conceptual profile",
+    "category": "solid_tumor",
+    "tags": ["solid tumor", "growth-signaling", "immune-evasive"],
+    "description": "A prostate-cancer-inspired conceptual growth-signaling profile with proliferation, telomerase, and comparatively lower immune visibility.",
+    "evidence_label": "inferred_interaction",
+    "typical_markers": {
+      "growth_signaling": ["REPLICATION_STRESS", "TELOMERASE_HIGH", "RB_INACTIVE"],
+      "immune_evasion": ["MHC_LOW"],
+      "death_resistance": ["CASPASE_BLOCKED"]
+    },
+    "default_signal_biases": {
+      "REPLICATION_STRESS": 0.64,
+      "TELOMERASE_HIGH": 0.72,
+      "RB_INACTIVE": 0.42,
+      "MHC_LOW": 0.38,
+      "NEOANTIGEN_PRESENT": 0.30,
+      "CASPASE_BLOCKED": 0.55
+    },
+    "default_pathway_biases": {
+      "p53_active": 0.45,
+      "rb_active": 0.55,
+      "caspase_accessible": 0.45,
+      "checkpoint_strength": 0.44
+    },
+    "microenvironment_biases": {
+      "oxygen": 0.82,
+      "acidity": 0.16,
+      "inflammation": 0.22,
+      "immune_pressure": 0.25,
+      "stromal_barrier": 0.30,
+      "vascular_support": 0.50
+    },
+    "expected_vulnerabilities": ["growth_control", "death_pathway", "immune_visibility"],
+    "possible_escape_modes": ["telomerase persistence", "low antigen visibility", "cell-cycle bypass"],
+    "starter_cocktails": ["Damage-to-death cascade", "Four-signal waste-cell gate"],
+    "notes": "This profile is a modeling abstraction and does not model hormone therapy."
+  },
+  {
+    "id": "renal_cell_vascular_hypoxia",
+    "display_name": "Renal cell carcinoma vascular/hypoxia profile",
+    "category": "solid_tumor",
+    "tags": ["solid tumor", "hypoxic/metabolic", "immune-visible"],
+    "description": "A renal-cell-carcinoma-inspired profile with vascular/hypoxia pressure, immune visibility, and metabolic stress.",
+    "evidence_label": "inferred_interaction",
+    "typical_markers": {
+      "microenvironment": ["HYPOXIA_HIGH", "ANGIOGENESIS_SIGNAL"],
+      "immune_visibility": ["NEOANTIGEN_PRESENT", "STRESS_LIGAND_HIGH"],
+      "metabolic_stress": ["LACTATE_HIGH"]
+    },
+    "default_signal_biases": {
+      "HYPOXIA_HIGH": 0.70,
+      "ANGIOGENESIS_SIGNAL": 0.80,
+      "LACTATE_HIGH": 0.55,
+      "NEOANTIGEN_PRESENT": 0.58,
+      "STRESS_LIGAND_HIGH": 0.55,
+      "PD_L1_HIGH": 0.45
+    },
+    "default_pathway_biases": {
+      "p53_active": 0.50,
+      "rb_active": 0.55,
+      "caspase_accessible": 0.48,
+      "checkpoint_strength": 0.45
+    },
+    "microenvironment_biases": {
+      "oxygen": 0.55,
+      "acidity": 0.32,
+      "inflammation": 0.34,
+      "immune_pressure": 0.42,
+      "stromal_barrier": 0.28,
+      "vascular_support": 0.72
+    },
+    "expected_vulnerabilities": ["hypoxia_gate", "immune_visibility", "vascular_normalization"],
+    "possible_escape_modes": ["vascular support persistence", "hypoxia adaptation", "checkpoint increase"],
+    "starter_cocktails": ["Hypoxic tumor bath", "Immune visibility starter"],
+    "notes": "Captures vascular/hypoxia concepts only; not a renal-cancer clinical model."
+  },
+  {
+    "id": "leukemia_high_proliferation",
+    "display_name": "Leukemia-like high-proliferation profile",
+    "category": "blood_cancer",
+    "tags": ["blood cancer", "growth-signaling", "immune-visible"],
+    "description": "A blood-cancer-like simulation profile with high proliferation, replication stress, apoptosis blockade, and lower stromal barrier assumptions.",
+    "evidence_label": "inferred_interaction",
+    "typical_markers": {
+      "growth_signaling": ["REPLICATION_STRESS", "TELOMERASE_HIGH"],
+      "death_resistance": ["CASPASE_BLOCKED"],
+      "immune_visibility": ["STRESS_LIGAND_HIGH", "CD47_DONT_EAT_ME"]
+    },
+    "default_signal_biases": {
+      "REPLICATION_STRESS": 0.86,
+      "TELOMERASE_HIGH": 0.70,
+      "CASPASE_BLOCKED": 0.68,
+      "STRESS_LIGAND_HIGH": 0.62,
+      "CD47_DONT_EAT_ME": 0.62,
+      "DNA_DAMAGE_HIGH": 0.58
+    },
+    "default_pathway_biases": {
+      "p53_active": 0.35,
+      "rb_active": 0.38,
+      "caspase_accessible": 0.32,
+      "checkpoint_strength": 0.30
+    },
+    "microenvironment_biases": {
+      "oxygen": 0.86,
+      "acidity": 0.12,
+      "inflammation": 0.30,
+      "immune_pressure": 0.48,
+      "stromal_barrier": 0.08,
+      "vascular_support": 0.70
+    },
+    "expected_vulnerabilities": ["growth_control", "macrophage_cleanup", "death_pathway"],
+    "possible_escape_modes": ["apoptosis resistance", "CD47-like increase", "stress signal reduction"],
+    "starter_cocktails": ["Innate immune cleanup bath", "Damage-to-death cascade"],
+    "notes": "A leukemia-like simulator challenge; it does not model hematologic diagnosis."
+  },
+  {
+    "id": "lymphoma_immune_origin",
+    "display_name": "Lymphoma immune-cell-origin profile",
+    "category": "blood_cancer",
+    "tags": ["blood cancer", "immune-evasive", "death-resistance"],
+    "description": "A lymphoma-inspired immune-cell-origin profile with immune checkpoint ambiguity, apoptosis resistance, and CD47-like cleanup resistance.",
+    "evidence_label": "inferred_interaction",
+    "typical_markers": {
+      "immune_evasion": ["PD_L1_HIGH", "CD47_DONT_EAT_ME"],
+      "death_resistance": ["CASPASE_BLOCKED"],
+      "growth_signaling": ["REPLICATION_STRESS"],
+      "immune_visibility": ["NEOANTIGEN_PRESENT"]
+    },
+    "default_signal_biases": {
+      "PD_L1_HIGH": 0.66,
+      "CD47_DONT_EAT_ME": 0.70,
+      "CASPASE_BLOCKED": 0.72,
+      "REPLICATION_STRESS": 0.58,
+      "NEOANTIGEN_PRESENT": 0.45,
+      "MHC_LOW": 0.35
+    },
+    "default_pathway_biases": {
+      "p53_active": 0.42,
+      "rb_active": 0.48,
+      "caspase_accessible": 0.28,
+      "checkpoint_strength": 0.38
+    },
+    "microenvironment_biases": {
+      "oxygen": 0.84,
+      "acidity": 0.14,
+      "inflammation": 0.38,
+      "immune_pressure": 0.52,
+      "stromal_barrier": 0.12,
+      "vascular_support": 0.65
+    },
+    "expected_vulnerabilities": ["macrophage_cleanup", "immune_checkpoint", "death_pathway"],
+    "possible_escape_modes": ["CD47-like persistence", "checkpoint increase", "apoptosis blockade"],
+    "starter_cocktails": ["Innate immune cleanup bath", "Immune visibility starter"],
+    "notes": "Immune-cell-origin behavior is simplified and should be interpreted cautiously."
+  }
+]

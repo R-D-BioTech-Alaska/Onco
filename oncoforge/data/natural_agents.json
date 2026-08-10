@@ -1,0 +1,122 @@
+[
+  {
+    "name": "ATM/ATR DNA Damage Sensor",
+    "category": "natural_damage_sensor",
+    "targets": {"DNA_DAMAGE_HIGH": 0.45, "REPLICATION_STRESS": 0.35},
+    "activation_logic": "WEIGHTED",
+    "actions": {"cell_cycle_arrest": 0.55, "repair_dna": 0.45},
+    "specificity": 0.72,
+    "potency": 0.42,
+    "healthy_cell_risk": 0.04,
+    "evidence_level": 1,
+    "description": "Conceptual abstraction of ATM/ATR checkpoint sensing of DNA damage and replication stress."
+  },
+  {
+    "name": "p53 Pathway Restorer",
+    "category": "natural_tumor_suppressor_mimic",
+    "targets": {"DNA_DAMAGE_HIGH": 0.40, "P53_INACTIVE": 0.45, "REPLICATION_STRESS": 0.35},
+    "activation_logic": "WEIGHTED",
+    "actions": {"cell_cycle_arrest": 0.55, "increase_apoptosis": 0.55, "increase_senescence": 0.30},
+    "specificity": 0.68,
+    "potency": 0.60,
+    "healthy_cell_risk": 0.12,
+    "evidence_level": 2,
+    "description": "A model agent representing restoration or replacement of p53-like damaged-cell checkpoint behavior."
+  },
+  {
+    "name": "Mismatch Repair Support",
+    "category": "natural_repair_pathway",
+    "targets": {"MMR_DEFECT": 0.35, "DNA_DAMAGE_HIGH": 0.30},
+    "activation_logic": "WEIGHTED",
+    "actions": {"repair_dna": 0.65, "cell_cycle_arrest": 0.20},
+    "specificity": 0.60,
+    "potency": 0.45,
+    "healthy_cell_risk": 0.03,
+    "evidence_level": 2,
+    "description": "Conceptual support of mismatch repair-like error reduction."
+  },
+  {
+    "name": "BRCA Repair Support",
+    "category": "natural_repair_pathway",
+    "targets": {"BRCA_DEFECT": 0.35, "DNA_DAMAGE_HIGH": 0.45},
+    "activation_logic": "WEIGHTED",
+    "actions": {"repair_dna": 0.55, "cell_cycle_arrest": 0.25},
+    "specificity": 0.58,
+    "potency": 0.40,
+    "healthy_cell_risk": 0.03,
+    "evidence_level": 2,
+    "description": "Conceptual support of homologous recombination repair capacity."
+  },
+  {
+    "name": "Caspase Accessibility Opener",
+    "category": "natural_apoptosis_pathway",
+    "targets": {"CASPASE_BLOCKED": 0.35, "APOPTOSIS_READY": 0.25},
+    "activation_logic": "WEIGHTED",
+    "actions": {"increase_apoptosis": 0.60},
+    "specificity": 0.62,
+    "potency": 0.58,
+    "healthy_cell_risk": 0.15,
+    "evidence_level": 3,
+    "description": "Conceptual agent that lowers apoptosis blockade and increases death-pathway accessibility."
+  },
+  {
+    "name": "Apoptosis Execution Trigger",
+    "category": "natural_apoptosis_pathway",
+    "targets": {"APOPTOSIS_READY": 0.35, "DNA_DAMAGE_HIGH": 0.45, "CASPASE_BLOCKED": 0.20},
+    "activation_logic": "WEIGHTED",
+    "actions": {"execute_apoptosis": 0.70},
+    "specificity": 0.64,
+    "potency": 0.62,
+    "healthy_cell_risk": 0.18,
+    "evidence_level": 3,
+    "description": "Conceptual final common apoptosis trigger used for testing cascade logic."
+  },
+  {
+    "name": "NK Missing-Self Enhancer",
+    "category": "immune_recognition",
+    "targets": {"MHC_LOW": 0.35, "STRESS_LIGAND_HIGH": 0.35},
+    "activation_logic": "OR",
+    "actions": {"increase_nk_kill": 0.65, "immune_marking": 0.25},
+    "specificity": 0.70,
+    "potency": 0.64,
+    "healthy_cell_risk": 0.10,
+    "evidence_level": 2,
+    "description": "Model of enhanced NK-cell response to missing-self and stress-ligand signals."
+  },
+  {
+    "name": "T-cell Engagement Amplifier",
+    "category": "immune_recognition",
+    "targets": {"NEOANTIGEN_PRESENT": 0.40, "PD_L1_HIGH": 0.25},
+    "activation_logic": "WEIGHTED",
+    "actions": {"increase_tcell_kill": 0.70, "immune_marking": 0.25},
+    "specificity": 0.72,
+    "potency": 0.60,
+    "healthy_cell_risk": 0.08,
+    "evidence_level": 2,
+    "description": "Conceptual T-cell engagement factor driven by neoantigen visibility and immune brake status."
+  },
+  {
+    "name": "MHC-I Restoration Factor",
+    "category": "immune_visibility",
+    "targets": {"MHC_LOW": 0.35, "NEOANTIGEN_PRESENT": 0.30},
+    "activation_logic": "WEIGHTED",
+    "actions": {"restore_mhc": 0.70, "immune_marking": 0.25},
+    "specificity": 0.66,
+    "potency": 0.54,
+    "healthy_cell_risk": 0.07,
+    "evidence_level": 3,
+    "description": "Conceptual factor to test whether restoring antigen presentation improves clearance."
+  },
+  {
+    "name": "PD-L1 Blockade Mimic",
+    "category": "immune_checkpoint",
+    "targets": {"PD_L1_HIGH": 0.35, "NEOANTIGEN_PRESENT": 0.25},
+    "activation_logic": "WEIGHTED",
+    "actions": {"block_pd_l1": 0.75, "increase_tcell_kill": 0.35},
+    "specificity": 0.70,
+    "potency": 0.58,
+    "healthy_cell_risk": 0.10,
+    "evidence_level": 2,
+    "description": "Conceptual immune-checkpoint relief agent."
+  }
+]

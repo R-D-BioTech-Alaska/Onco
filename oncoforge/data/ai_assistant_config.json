@@ -1,0 +1,12 @@
+{
+  "enabled": false,
+  "provider": "ollama",
+  "base_url": "http://localhost:11434",
+  "model": "llama3.1",
+  "temperature": 0.2,
+  "max_tokens": 1200,
+  "auto_analyze_after_run": true,
+  "allow_continuous_experiments": false,
+  "max_auto_experiments": 10,
+  "require_user_confirmation_before_long_runs": true
+}

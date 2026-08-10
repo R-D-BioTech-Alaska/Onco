@@ -1,0 +1,512 @@
+[
+  {
+    "name": "Tumor Stress Binder",
+    "category": "synthetic_binding_protein",
+    "targets": {
+      "STRESS_LIGAND_HIGH": 0.35,
+      "DNA_DAMAGE_HIGH": 0.35
+    },
+    "activation_logic": "AND",
+    "actions": {
+      "immune_marking": 0.65,
+      "increase_apoptosis": 0.25
+    },
+    "specificity": 0.76,
+    "potency": 0.5,
+    "healthy_cell_risk": 0.09,
+    "evidence_level": 4,
+    "description": "Synthetic multi-condition binder for cells with both stress ligands and DNA damage."
+  },
+  {
+    "name": "Stress Ligand Amplifier",
+    "category": "synthetic_signal_amplifier",
+    "targets": {
+      "DNA_DAMAGE_HIGH": 0.35,
+      "REPLICATION_STRESS": 0.35
+    },
+    "activation_logic": "WEIGHTED",
+    "actions": {
+      "immune_marking": 0.7,
+      "increase_nk_kill": 0.25
+    },
+    "specificity": 0.62,
+    "potency": 0.5,
+    "healthy_cell_risk": 0.12,
+    "evidence_level": 4,
+    "description": "Conceptual amplification of abnormal stress signals to improve immune clearance."
+  },
+  {
+    "name": "Hypoxia-Activated Enzyme Gate",
+    "category": "synthetic_conditional_enzyme",
+    "targets": {
+      "HYPOXIA_HIGH": 0.35,
+      "TUMOR_ACIDITY": 0.3
+    },
+    "activation_logic": "AND",
+    "actions": {
+      "hypoxia_local_activation": 0.8
+    },
+    "specificity": 0.78,
+    "potency": 0.7,
+    "healthy_cell_risk": 0.08,
+    "evidence_level": 4,
+    "description": "Synthetic gate that activates in hypoxic/acidic tumor-like environments."
+  },
+  {
+    "name": "Tumor Protease Enzyme Gate",
+    "category": "synthetic_conditional_enzyme",
+    "targets": {
+      "TUMOR_PROTEASE_ACTIVITY": 0.4,
+      "ECM_INVASION_HIGH": 0.3
+    },
+    "activation_logic": "WEIGHTED",
+    "actions": {
+      "hypoxia_local_activation": 0.4,
+      "matrix_degradation": 0.4,
+      "immune_marking": 0.25
+    },
+    "specificity": 0.74,
+    "potency": 0.55,
+    "healthy_cell_risk": 0.1,
+    "evidence_level": 4,
+    "description": "Conceptual enzyme gate tied to tumor protease activity and invasive behavior."
+  },
+  {
+    "name": "Matrix Barrier Softener",
+    "category": "synthetic_microenvironment_agent",
+    "targets": {
+      "ECM_INVASION_HIGH": 0.3,
+      "TUMOR_ACIDITY": 0.25
+    },
+    "activation_logic": "WEIGHTED",
+    "actions": {
+      "matrix_degradation": 0.65,
+      "immune_marking": 0.2
+    },
+    "specificity": 0.58,
+    "potency": 0.45,
+    "healthy_cell_risk": 0.16,
+    "evidence_level": 4,
+    "description": "Conceptual local matrix modulation to reduce barrier effects and expose cells."
+  },
+  {
+    "name": "PARP Dependence Exploiter",
+    "category": "synthetic_synthetic_lethality_agent",
+    "targets": {
+      "PARP_DEPENDENCE": 0.35,
+      "BRCA_DEFECT": 0.35,
+      "DNA_DAMAGE_HIGH": 0.35
+    },
+    "activation_logic": "WEIGHTED",
+    "actions": {
+      "increase_apoptosis": 0.45,
+      "execute_apoptosis": 0.35
+    },
+    "specificity": 0.7,
+    "potency": 0.6,
+    "healthy_cell_risk": 0.12,
+    "evidence_level": 3,
+    "description": "Conceptual synthetic-lethality style agent for repair-defective cells."
+  },
+  {
+    "name": "Telomerase Pressure Clamp",
+    "category": "synthetic_growth_control_agent",
+    "targets": {
+      "TELOMERASE_HIGH": 0.4,
+      "REPLICATION_STRESS": 0.3
+    },
+    "activation_logic": "WEIGHTED",
+    "actions": {
+      "reduce_proliferation": 0.7,
+      "increase_senescence": 0.45
+    },
+    "specificity": 0.6,
+    "potency": 0.52,
+    "healthy_cell_risk": 0.13,
+    "evidence_level": 4,
+    "description": "Conceptual agent that tests reduced immortality/proliferation pressure."
+  },
+  {
+    "name": "Multi-Signal Apoptosis Logic Gate",
+    "category": "synthetic_logic_gated_protein",
+    "targets": {
+      "DNA_DAMAGE_HIGH": 0.35,
+      "P53_INACTIVE": 0.3,
+      "TELOMERASE_HIGH": 0.3,
+      "CASPASE_BLOCKED": 0.25
+    },
+    "activation_logic": "AND",
+    "actions": {
+      "increase_apoptosis": 0.65,
+      "execute_apoptosis": 0.5
+    },
+    "specificity": 0.82,
+    "potency": 0.68,
+    "healthy_cell_risk": 0.11,
+    "evidence_level": 5,
+    "description": "User-concept aligned multi-input synthetic protein that activates only when several malignant signals appear together."
+  },
+  {
+    "name": "Abnormal Glycoform Binder",
+    "category": "synthetic_binding_protein",
+    "targets": {
+      "MUCIN_ABNORMAL": 0.45,
+      "STRESS_LIGAND_HIGH": 0.25
+    },
+    "activation_logic": "WEIGHTED",
+    "actions": {
+      "immune_marking": 0.55,
+      "increase_tcell_kill": 0.25
+    },
+    "specificity": 0.64,
+    "potency": 0.44,
+    "healthy_cell_risk": 0.14,
+    "evidence_level": 4,
+    "description": "Conceptual binder for abnormal tumor-associated surface glycoform patterns."
+  },
+  {
+    "name": "Driver Protein Degrader",
+    "category": "synthetic_targeted_degrader",
+    "targets": {
+      "REPLICATION_STRESS": 0.35,
+      "TELOMERASE_HIGH": 0.3,
+      "EGFR_LIKE": 0.35
+    },
+    "activation_logic": "WEIGHTED",
+    "actions": {
+      "degrade_driver": 0.65,
+      "reduce_proliferation": 0.45
+    },
+    "specificity": 0.66,
+    "potency": 0.55,
+    "healthy_cell_risk": 0.13,
+    "evidence_level": 4,
+    "description": "Conceptual targeted degrader abstraction for overactive growth-driver states."
+  },
+  {
+    "name": "CD47 Phagocytosis Brake Remover",
+    "category": "synthetic_macrophage_recruiter",
+    "targets": {
+      "CD47_DONT_EAT_ME": 0.35,
+      "STRESS_LIGAND_HIGH": 0.25
+    },
+    "activation_logic": "WEIGHTED",
+    "actions": {
+      "block_cd47": 0.7,
+      "increase_phagocytosis": 0.45,
+      "immune_marking": 0.2
+    },
+    "specificity": 0.62,
+    "potency": 0.55,
+    "healthy_cell_risk": 0.14,
+    "evidence_level": 4,
+    "description": "Conceptual protein pair that reduces a do-not-eat-me-like signal and increases macrophage-style removal in the model."
+  },
+  {
+    "name": "Complement Deposition Gate",
+    "category": "synthetic_complement_agent",
+    "targets": {
+      "COMPLEMENT_SUSCEPTIBLE": 0.35,
+      "MUCIN_ABNORMAL": 0.3
+    },
+    "activation_logic": "WEIGHTED",
+    "actions": {
+      "activate_complement": 0.65,
+      "immune_marking": 0.25
+    },
+    "specificity": 0.58,
+    "potency": 0.5,
+    "healthy_cell_risk": 0.18,
+    "evidence_level": 4,
+    "description": "Conceptual complement-style tagging gate for abnormal surface chemistry."
+  },
+  {
+    "name": "Ferroptosis Susceptibility Trigger",
+    "category": "synthetic_metabolic_death_agent",
+    "targets": {
+      "FERROPTOSIS_SUSCEPTIBLE": 0.35,
+      "DNA_DAMAGE_HIGH": 0.3,
+      "LACTATE_HIGH": 0.3
+    },
+    "activation_logic": "WEIGHTED",
+    "actions": {
+      "trigger_ferroptosis": 0.7,
+      "increase_apoptosis": 0.2
+    },
+    "specificity": 0.61,
+    "potency": 0.56,
+    "healthy_cell_risk": 0.16,
+    "evidence_level": 4,
+    "description": "Conceptual non-apoptotic death gate for metabolically stressed, damage-high cells."
+  },
+  {
+    "name": "Proteostasis Collapse Gate",
+    "category": "synthetic_stress_overload_agent",
+    "targets": {
+      "PROTEASOME_STRESS": 0.35,
+      "UNFOLDED_PROTEIN_RESPONSE": 0.35
+    },
+    "activation_logic": "OR",
+    "actions": {
+      "proteostasis_overload": 0.62,
+      "increase_apoptosis": 0.25
+    },
+    "specificity": 0.6,
+    "potency": 0.52,
+    "healthy_cell_risk": 0.15,
+    "evidence_level": 4,
+    "description": "Conceptual stress-overload module for high protein-turnover or misfolded-protein states."
+  },
+  {
+    "name": "STING Interferon Visibility Pulse",
+    "category": "synthetic_innate_immune_signal",
+    "targets": {
+      "STING_DNA_SENSING": 0.35,
+      "DNA_DAMAGE_HIGH": 0.3
+    },
+    "activation_logic": "WEIGHTED",
+    "actions": {
+      "sting_interferon_signal": 0.7,
+      "immune_marking": 0.3
+    },
+    "specificity": 0.63,
+    "potency": 0.48,
+    "healthy_cell_risk": 0.13,
+    "evidence_level": 4,
+    "description": "Conceptual innate-immune pulse that converts intracellular damage sensing into better immune visibility."
+  },
+  {
+    "name": "Autophagy Dependency Pressure",
+    "category": "synthetic_adaptation_blocker",
+    "targets": {
+      "AUTOPHAGY_DEPENDENCE": 0.35,
+      "HYPOXIA_HIGH": 0.3
+    },
+    "activation_logic": "WEIGHTED",
+    "actions": {
+      "autophagy_pressure": 0.65,
+      "increase_apoptosis": 0.2
+    },
+    "specificity": 0.59,
+    "potency": 0.5,
+    "healthy_cell_risk": 0.15,
+    "evidence_level": 4,
+    "description": "Conceptual pressure against stress-adapted cells dependent on hypoxia/autophagy-like survival."
+  },
+  {
+    "name": "Four-Signal Waste Cell Gate",
+    "category": "synthetic_logic_gated_protein",
+    "targets": {
+      "DNA_DAMAGE_HIGH": 0.35,
+      "P53_INACTIVE": 0.3,
+      "MHC_LOW": 0.25,
+      "CD47_DONT_EAT_ME": 0.25
+    },
+    "activation_logic": "AND",
+    "actions": {
+      "immune_marking": 0.5,
+      "increase_phagocytosis": 0.45,
+      "execute_apoptosis": 0.35
+    },
+    "specificity": 0.86,
+    "potency": 0.62,
+    "healthy_cell_risk": 0.1,
+    "evidence_level": 5,
+    "description": "User-concept aligned multi-signal gate: damaged, suppressor-defective, immune-hidden, phagocytosis-resistant cells."
+  },
+  {
+    "name": "T-cell Priming Signal",
+    "category": "immune_visibility",
+    "targets": {"NEOANTIGEN_PRESENT": 0.35, "STING_DNA_SENSING": 0.25},
+    "activation_logic": "WEIGHTED",
+    "actions": {"immune_marking": 0.45, "increase_tcell_kill": 0.35},
+    "specificity": 0.69,
+    "potency": 0.42,
+    "healthy_cell_risk": 0.09,
+    "evidence_level": 3,
+    "description": "Conceptual priming module for simulations with antigen visibility and innate DNA-sensing signals.",
+    "notes_limitations": "Not a vaccine or clinical priming model; use only for conceptual immune-visibility experiments."
+  },
+  {
+    "name": "Neoantigen Visibility Amplifier",
+    "category": "immune_visibility",
+    "targets": {"NEOANTIGEN_PRESENT": 0.30, "DNA_DAMAGE_HIGH": 0.25},
+    "activation_logic": "WEIGHTED",
+    "actions": {"immune_marking": 0.55, "restore_mhc": 0.25},
+    "specificity": 0.67,
+    "potency": 0.44,
+    "healthy_cell_risk": 0.08,
+    "evidence_level": 3,
+    "description": "Conceptual amplifier for antigen visibility in high-mutation or damage-associated simulations.",
+    "notes_limitations": "Qualitative antigen-presentation abstraction only."
+  },
+  {
+    "name": "NK Persistence Support",
+    "category": "nk_stress_response",
+    "targets": {"STRESS_LIGAND_HIGH": 0.35, "MHC_LOW": 0.25},
+    "activation_logic": "OR",
+    "actions": {"increase_nk_kill": 0.45, "immune_marking": 0.20},
+    "specificity": 0.66,
+    "potency": 0.46,
+    "healthy_cell_risk": 0.11,
+    "evidence_level": 3,
+    "description": "Conceptual support for sustained NK-style pressure against stress-ligand or missing-self states.",
+    "notes_limitations": "Can raise immune pressure; compare against lower-intensity surveillance settings."
+  },
+  {
+    "name": "BCL-2 Resistance Reducer",
+    "category": "death_pathway_agent",
+    "targets": {"CASPASE_BLOCKED": 0.35, "APOPTOSIS_READY": 0.20},
+    "activation_logic": "WEIGHTED",
+    "actions": {"increase_apoptosis": 0.55},
+    "specificity": 0.61,
+    "potency": 0.50,
+    "healthy_cell_risk": 0.14,
+    "evidence_level": 3,
+    "description": "Conceptual apoptosis-resistance reducer for death-pathway simulations.",
+    "notes_limitations": "Can overlap with stressed healthy cells; use signal gating."
+  },
+  {
+    "name": "Death-Receptor Sensitizer",
+    "category": "death_pathway_agent",
+    "targets": {"APOPTOSIS_READY": 0.30, "STRESS_LIGAND_HIGH": 0.25},
+    "activation_logic": "WEIGHTED",
+    "actions": {"increase_apoptosis": 0.45, "execute_apoptosis": 0.20},
+    "specificity": 0.63,
+    "potency": 0.48,
+    "healthy_cell_risk": 0.13,
+    "evidence_level": 3,
+    "description": "Conceptual sensitizer for cells already showing apoptosis readiness and stress signals.",
+    "notes_limitations": "Not a clinical death-receptor model."
+  },
+  {
+    "name": "HR-Defect Exploiter",
+    "category": "synthetic_synthetic_lethality_agent",
+    "targets": {"BRCA_DEFECT": 0.35, "PARP_DEPENDENCE": 0.30},
+    "activation_logic": "AND",
+    "actions": {"increase_apoptosis": 0.50, "cell_cycle_arrest": 0.25},
+    "specificity": 0.74,
+    "potency": 0.50,
+    "healthy_cell_risk": 0.10,
+    "evidence_level": 3,
+    "description": "Narrow conceptual pressure for homologous-repair-defective simulation states.",
+    "notes_limitations": "Synthetic-lethality behavior is qualitative and not calibrated."
+  },
+  {
+    "name": "Replication-Stress Amplifier",
+    "category": "DNA_repair_vulnerability",
+    "targets": {"REPLICATION_STRESS": 0.35, "DNA_DAMAGE_HIGH": 0.25},
+    "activation_logic": "WEIGHTED",
+    "actions": {"cell_cycle_arrest": 0.35, "increase_apoptosis": 0.35},
+    "specificity": 0.58,
+    "potency": 0.45,
+    "healthy_cell_risk": 0.15,
+    "evidence_level": 4,
+    "description": "Broad conceptual stress amplifier for fast-cycling damaged cells.",
+    "notes_limitations": "Higher healthy overlap risk when healthy proliferation is elevated."
+  },
+  {
+    "name": "Phagocytosis Amplifier",
+    "category": "macrophage_cleanup",
+    "targets": {"CD47_DONT_EAT_ME": 0.30, "COMPLEMENT_SUSCEPTIBLE": 0.25},
+    "activation_logic": "WEIGHTED",
+    "actions": {"increase_phagocytosis": 0.55, "immune_marking": 0.20},
+    "specificity": 0.60,
+    "potency": 0.46,
+    "healthy_cell_risk": 0.15,
+    "evidence_level": 4,
+    "description": "Conceptual macrophage-style cleanup amplifier for do-not-eat-me and complement-like signals.",
+    "notes_limitations": "Use cautiously where CD47-like signal overlaps healthy cells."
+  },
+  {
+    "name": "Complement Susceptibility Amplifier",
+    "category": "macrophage_cleanup",
+    "targets": {"COMPLEMENT_SUSCEPTIBLE": 0.35, "MUCIN_ABNORMAL": 0.25},
+    "activation_logic": "WEIGHTED",
+    "actions": {"activate_complement": 0.50, "immune_marking": 0.25},
+    "specificity": 0.56,
+    "potency": 0.44,
+    "healthy_cell_risk": 0.18,
+    "evidence_level": 4,
+    "description": "Conceptual complement amplification for abnormal surface chemistry simulations.",
+    "notes_limitations": "Inflammation and healthy overlap risk can be higher than narrower gates."
+  },
+  {
+    "name": "Innate Cleanup Recruiter",
+    "category": "macrophage_cleanup",
+    "targets": {"STING_DNA_SENSING": 0.30, "CD47_DONT_EAT_ME": 0.25},
+    "activation_logic": "WEIGHTED",
+    "actions": {"sting_interferon_signal": 0.30, "increase_phagocytosis": 0.35},
+    "specificity": 0.59,
+    "potency": 0.43,
+    "healthy_cell_risk": 0.16,
+    "evidence_level": 4,
+    "description": "Conceptual bridge between DNA-sensing visibility and phagocytic cleanup.",
+    "notes_limitations": "Can raise inflammatory pressure in the model."
+  },
+  {
+    "name": "Lactate-Stress Gate",
+    "category": "metabolic_stress",
+    "targets": {"LACTATE_HIGH": 0.35, "HYPOXIA_HIGH": 0.25},
+    "activation_logic": "AND",
+    "actions": {"hypoxia_local_activation": 0.35, "increase_apoptosis": 0.25},
+    "specificity": 0.70,
+    "potency": 0.44,
+    "healthy_cell_risk": 0.09,
+    "evidence_level": 4,
+    "description": "Conceptual gate for lactate-rich hypoxic tumor-like states.",
+    "notes_limitations": "Hypoxia/lactate can overlap injured normal tissue in real biology; interpret as model-only."
+  },
+  {
+    "name": "Tumor Acidity Gate",
+    "category": "microenvironment_agent",
+    "targets": {"TUMOR_ACIDITY": 0.35, "LACTATE_HIGH": 0.25},
+    "activation_logic": "WEIGHTED",
+    "actions": {"hypoxia_local_activation": 0.35, "immune_marking": 0.15},
+    "specificity": 0.64,
+    "potency": 0.40,
+    "healthy_cell_risk": 0.12,
+    "evidence_level": 4,
+    "description": "Conceptual acidity-aware gate for tumor microenvironment simulations.",
+    "notes_limitations": "Acidity is a coarse tissue-scale variable."
+  },
+  {
+    "name": "Vascular Normalization Concept",
+    "category": "microenvironment_agent",
+    "targets": {"ANGIOGENESIS_SIGNAL": 0.35, "HYPOXIA_HIGH": 0.25},
+    "activation_logic": "WEIGHTED",
+    "actions": {"immune_marking": 0.20, "matrix_degradation": 0.20},
+    "specificity": 0.52,
+    "potency": 0.34,
+    "healthy_cell_risk": 0.12,
+    "evidence_level": 4,
+    "description": "Conceptual microenvironment modifier for vascular/hypoxia pressure tests.",
+    "notes_limitations": "Does not model angiogenesis pharmacology."
+  },
+  {
+    "name": "ECM Invasion Brake",
+    "category": "anti_invasion_agent",
+    "targets": {"ECM_INVASION_HIGH": 0.35, "TUMOR_PROTEASE_ACTIVITY": 0.25},
+    "activation_logic": "WEIGHTED",
+    "actions": {"matrix_degradation": 0.25, "reduce_proliferation": 0.25},
+    "specificity": 0.62,
+    "potency": 0.38,
+    "healthy_cell_risk": 0.11,
+    "evidence_level": 4,
+    "description": "Conceptual invasion-pressure reducer for ECM/protease-high states.",
+    "notes_limitations": "Matrix effects are simplified and not directional."
+  },
+  {
+    "name": "Matrix Access Enhancer",
+    "category": "anti_invasion_agent",
+    "targets": {"ECM_INVASION_HIGH": 0.25, "TUMOR_ACIDITY": 0.25},
+    "activation_logic": "WEIGHTED",
+    "actions": {"matrix_degradation": 0.45, "immune_marking": 0.15},
+    "specificity": 0.50,
+    "potency": 0.36,
+    "healthy_cell_risk": 0.18,
+    "evidence_level": 4,
+    "description": "Broader conceptual matrix-access agent for testing stromal-barrier-heavy profiles.",
+    "notes_limitations": "Higher healthy-risk option; generally gate or compare rather than use by default."
+  }
+]

@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "oncoforge"
+version = "0.6.0"
+description = "Conceptual cancer-systems simulator for hypothesis exploration."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+  { name = "R&D BioTech Alaska" }
+]
+license = { text = "MIT" }
+keywords = ["simulation", "cancer-systems", "conceptual-modeling", "quantum-strategy"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Topic :: Scientific/Engineering",
+]
+dependencies = []
+
+[project.scripts]
+oncoforge = "oncoforge.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["oncoforge*"]
+
+[tool.setuptools.package-data]
+oncoforge = ["data/*.json"]

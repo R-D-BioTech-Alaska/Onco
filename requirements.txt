@@ -1,0 +1,4 @@
+# OncoForge intentionally uses Python standard-library modules only.
+# Python 3.10+ recommended.
+# Tkinter is included with most desktop Python installers. On some Linux systems,
+# install python3-tk from your OS package manager.

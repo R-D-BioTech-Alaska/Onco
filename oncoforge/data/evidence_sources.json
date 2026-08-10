@@ -1,0 +1,61 @@
+{
+  "scope_notice": "OncoForge is a conceptual hypothesis simulator. It is not a clinical treatment predictor.",
+  "evidence_levels": {
+    "established_biology": {
+      "level": 1,
+      "meaning": "Canonical or well-established biological pathway, simplified for this simulator."
+    },
+    "supported_model": {
+      "level": 2,
+      "meaning": "Common modeling abstraction or supported biological concept represented qualitatively."
+    },
+    "inferred_interaction": {
+      "level": 3,
+      "meaning": "Plausible interaction inferred from related biology; useful for exploration, not validation."
+    },
+    "speculative_hypothesis": {
+      "level": 4,
+      "meaning": "Synthetic or systems-level hypothesis that needs experimental support."
+    },
+    "user_concept": {
+      "level": 5,
+      "meaning": "User-created conceptual mechanism; treated as a design idea, not established science."
+    }
+  },
+  "modeled_biology_notes": [
+    {
+      "topic": "p53 pathway",
+      "note": "Represented as damage-linked arrest, apoptosis sensitivity, and senescence pressure."
+    },
+    {
+      "topic": "RB/cell-cycle checkpoint",
+      "note": "Represented as a proliferation brake and senescence-like checkpoint strength."
+    },
+    {
+      "topic": "ATM/ATR and DNA repair",
+      "note": "Represented as DNA-damage sensing, repair capacity, and mutation-pressure reduction."
+    },
+    {
+      "topic": "MHC-I, neoantigen, NK, PD-L1, and CD47-like immune behavior",
+      "note": "Represented as simplified visibility, missing-self, immune suppression, and phagocytosis-brake rules."
+    },
+    {
+      "topic": "Stress-death and microenvironment channels",
+      "note": "Ferroptosis, proteostasis, STING, autophagy, hypoxia, acidity, and matrix behavior are modeled as qualitative pressure signals."
+    }
+  ],
+  "anchors": [
+    {
+      "topic": "Hallmarks of cancer",
+      "note": "Cancer hallmarks are used as a conceptual organizing framework for cell-state variables."
+    },
+    {
+      "topic": "Agent-based multicellular simulation",
+      "note": "The architecture follows the general agent-based modeling pattern used by cancer and tissue simulators."
+    },
+    {
+      "topic": "Cancer immunoediting",
+      "note": "Natural immune surveillance, equilibrium, and escape are represented as simplified rules."
+    }
+  ]
+}

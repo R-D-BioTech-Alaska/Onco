@@ -1,0 +1,197 @@
+[
+  {
+    "name": "Generic p53-loss carcinoma",
+    "tissue_type": "generic_carcinoma",
+    "description": "High proliferation, weak p53 checkpoint, moderate antigen visibility, apoptosis resistance.",
+    "traits": {
+      "genome_instability": 0.62,
+      "mutation_burden": 0.58,
+      "dna_damage": 0.58,
+      "repair_capacity": 0.35,
+      "proliferation_rate": 0.72,
+      "apoptosis_sensitivity": 0.28,
+      "apoptosis_resistance": 0.68,
+      "telomerase_activity": 0.72,
+      "invasion_potential": 0.35,
+      "mhc_expression": 0.52,
+      "neoantigen_load": 0.55,
+      "stress_ligand_expression": 0.50,
+      "pd_l1_expression": 0.45,
+      "immune_suppression_output": 0.45,
+      "lactate_output": 0.55,
+      "hypoxia_tolerance": 0.62
+    },
+    "pathways": {
+      "p53_active": 0.05,
+      "rb_active": 0.45,
+      "atm_atr_active": 0.75,
+      "mmr_active": 0.70,
+      "brca_active": 0.80,
+      "caspase_accessible": 0.32,
+      "apoptosis_blockade": 0.62,
+      "checkpoint_strength": 0.22
+    },
+    "surface_markers": {
+      "EGFR_LIKE": 0.55,
+      "HER2_LIKE": 0.20,
+      "MUCIN_ABNORMAL": 0.65,
+      "TUMOR_PROTEASE_ACTIVITY": 0.55
+    }
+  },
+  {
+    "name": "MMR-deficient high-neoantigen clone",
+    "tissue_type": "colon_like_carcinoma",
+    "description": "Mismatch repair weakness, high neoantigen output, high immune visibility but immune escape pressure.",
+    "traits": {
+      "genome_instability": 0.72,
+      "mutation_burden": 0.86,
+      "dna_damage": 0.62,
+      "repair_capacity": 0.28,
+      "proliferation_rate": 0.62,
+      "apoptosis_sensitivity": 0.35,
+      "apoptosis_resistance": 0.58,
+      "telomerase_activity": 0.68,
+      "invasion_potential": 0.25,
+      "mhc_expression": 0.58,
+      "neoantigen_load": 0.92,
+      "stress_ligand_expression": 0.60,
+      "pd_l1_expression": 0.65,
+      "immune_suppression_output": 0.55,
+      "lactate_output": 0.48,
+      "hypoxia_tolerance": 0.52
+    },
+    "pathways": {
+      "p53_active": 0.45,
+      "rb_active": 0.55,
+      "atm_atr_active": 0.75,
+      "mmr_active": 0.12,
+      "brca_active": 0.80,
+      "caspase_accessible": 0.45,
+      "apoptosis_blockade": 0.50,
+      "checkpoint_strength": 0.38
+    },
+    "surface_markers": {
+      "EGFR_LIKE": 0.40,
+      "HER2_LIKE": 0.10,
+      "MUCIN_ABNORMAL": 0.72,
+      "TUMOR_PROTEASE_ACTIVITY": 0.45
+    }
+  },
+  {
+    "name": "MHC-low immune escape clone",
+    "tissue_type": "immune_edited_tumor",
+    "description": "Reduced antigen presentation, high stress ligand, higher NK susceptibility, high checkpoint pressure.",
+    "traits": {
+      "genome_instability": 0.58,
+      "mutation_burden": 0.62,
+      "dna_damage": 0.50,
+      "repair_capacity": 0.42,
+      "proliferation_rate": 0.66,
+      "apoptosis_sensitivity": 0.30,
+      "apoptosis_resistance": 0.66,
+      "telomerase_activity": 0.74,
+      "invasion_potential": 0.42,
+      "mhc_expression": 0.12,
+      "neoantigen_load": 0.62,
+      "stress_ligand_expression": 0.78,
+      "pd_l1_expression": 0.72,
+      "immune_suppression_output": 0.68,
+      "lactate_output": 0.58,
+      "hypoxia_tolerance": 0.66
+    },
+    "pathways": {
+      "p53_active": 0.20,
+      "rb_active": 0.40,
+      "atm_atr_active": 0.65,
+      "mmr_active": 0.60,
+      "brca_active": 0.65,
+      "caspase_accessible": 0.28,
+      "apoptosis_blockade": 0.68,
+      "checkpoint_strength": 0.25
+    },
+    "surface_markers": {
+      "EGFR_LIKE": 0.42,
+      "HER2_LIKE": 0.18,
+      "MUCIN_ABNORMAL": 0.52,
+      "TUMOR_PROTEASE_ACTIVITY": 0.62
+    }
+  },
+  {
+    "name": "BRCA-defective repair-stressed clone",
+    "tissue_type": "repair_defective_tumor",
+    "description": "Repair defect with high DNA damage, modeled for synthetic-lethality style testing.",
+    "traits": {
+      "genome_instability": 0.78,
+      "mutation_burden": 0.70,
+      "dna_damage": 0.82,
+      "repair_capacity": 0.22,
+      "proliferation_rate": 0.55,
+      "apoptosis_sensitivity": 0.42,
+      "apoptosis_resistance": 0.55,
+      "telomerase_activity": 0.62,
+      "invasion_potential": 0.30,
+      "mhc_expression": 0.60,
+      "neoantigen_load": 0.68,
+      "stress_ligand_expression": 0.68,
+      "pd_l1_expression": 0.38,
+      "immune_suppression_output": 0.38,
+      "lactate_output": 0.46,
+      "hypoxia_tolerance": 0.48
+    },
+    "pathways": {
+      "p53_active": 0.35,
+      "rb_active": 0.55,
+      "atm_atr_active": 0.80,
+      "mmr_active": 0.70,
+      "brca_active": 0.08,
+      "caspase_accessible": 0.45,
+      "apoptosis_blockade": 0.45,
+      "checkpoint_strength": 0.44
+    },
+    "surface_markers": {
+      "EGFR_LIKE": 0.25,
+      "HER2_LIKE": 0.20,
+      "MUCIN_ABNORMAL": 0.50,
+      "TUMOR_PROTEASE_ACTIVITY": 0.38
+    }
+  },
+  {
+    "name": "Hypoxic invasive clone",
+    "tissue_type": "hypoxic_invasive_tumor",
+    "description": "High hypoxia tolerance, acidity/lactate output, invasion, matrix barrier pressure.",
+    "traits": {
+      "genome_instability": 0.55,
+      "mutation_burden": 0.48,
+      "dna_damage": 0.46,
+      "repair_capacity": 0.45,
+      "proliferation_rate": 0.58,
+      "apoptosis_sensitivity": 0.25,
+      "apoptosis_resistance": 0.72,
+      "telomerase_activity": 0.78,
+      "invasion_potential": 0.82,
+      "mhc_expression": 0.42,
+      "neoantigen_load": 0.42,
+      "stress_ligand_expression": 0.58,
+      "pd_l1_expression": 0.52,
+      "immune_suppression_output": 0.65,
+      "lactate_output": 0.86,
+      "hypoxia_tolerance": 0.90
+    },
+    "pathways": {
+      "p53_active": 0.18,
+      "rb_active": 0.35,
+      "atm_atr_active": 0.55,
+      "mmr_active": 0.62,
+      "brca_active": 0.68,
+      "caspase_accessible": 0.22,
+      "apoptosis_blockade": 0.74,
+      "checkpoint_strength": 0.20
+    },
+    "surface_markers": {
+      "EGFR_LIKE": 0.50,
+      "HER2_LIKE": 0.30,
+      "MUCIN_ABNORMAL": 0.55,
+      "TUMOR_PROTEASE_ACTIVITY": 0.88
+    }
+  }
+]
