@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.7.0
+
+- Added a canonical evidence fabric with typed biological entities, stable namespace identifiers, source hashes, evidence classes, claim categories, contexts, contradictions, limitations, and assertion provenance hashes.
+- Added `TumorResearchModel` as the typed boundary between evidence ingestion and optimization.
+- Added Target Forge for exact tumor-versus-normal single-target, AND, OR, and AND-NOT discovery with continuous source measurements, explicit thresholds, missing-data rejection, normal-tissue hard bounds, clone/patient coverage, dropout checks, and a Pareto front without a combined truth score.
+- Added formal candidate hypotheses with evidence links, normal liabilities, uncertainty, escape routes, validation experiments, falsification conditions, and reproducible provenance.
+- Added a fail-closed QSA `SymmetryState` adapter with representation certificates, information-identical analytic controls, runtime receipts, deterministic hashes, classical fallback, and no unsupported advantage claim.
+- Added authenticated bounded Target Forge web API creation/retrieval endpoints and browser client calls for the website portal.
+- Added `target-forge` CLI execution and JSON/HTML reports.
+- Added a clearly labeled synthetic fixture, machine-readable evidence schema, current-system audit, and a complete website implementation prompt.
+- Added tests for provenance tampering, identifier failures, normal-tissue exclusion, missing critical-normal evidence, Pareto behavior, QSA/control equality, report reproducibility, portal authentication, and workload limits.
+
 ## 0.6.0
 
 - Connected the improved project to the public `R-D-BioTech-Alaska/Onco` Git history.

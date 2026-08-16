@@ -1,6 +1,23 @@
 # OncoForge User Guide
 
-OncoForge is a conceptual cancer-systems simulator. It is meant to help you think through mechanisms, tradeoffs, and hypotheses. It is not a clinical tool and does not predict patient outcomes.
+OncoForge combines an evidence-governed website research engine with a separate conceptual cancer-systems simulator. It is not a clinical tool and does not predict patient outcomes, prove safety or efficacy, or recommend treatment.
+
+## Website Target Forge
+
+Target Forge is the primary workflow for evidence-backed target and logic-gate research:
+
+1. Sign in to the OncoForge website workspace.
+2. Create a research project.
+3. Upload an `oncoforge.evidence.v1` JSON file, or choose the clearly labeled synthetic demonstration.
+4. Keep `Strict normal exclusion` selected unless the research protocol requires documented changes.
+5. Select **Run full Target Forge**. Evidence validation, tumor/normal compilation, bounded gate search, Pareto selection, classical control, and the optional QSA check run as one operation.
+6. Review **Normal safety** before tumor coverage or QSA output.
+7. Open a hypothesis to inspect source assertions, contradiction links, missing evidence, escape routes, validation experiment, and falsification condition.
+8. Download the original report JSON for the audit record.
+
+`SYNTHETIC FIXTURE` means software-test data. `EVIDENCE BACKED` means the result was derived from supplied evidence; it does not mean experimentally validated or clinically safe. Missing critical-normal evidence is a rejection, not zero risk.
+
+The machine-readable evidence contract is `schemas/evidence_fabric.schema.json`. The complete website implementation handoff is `website/ONCOFORGE_VNEXT_WEBSITE_PROMPT.md`.
 
 ## The core idea
 
@@ -25,7 +42,7 @@ Healthy damage stops
 Cancer does not recur during post-clearance watch steps
 ```
 
-## Easiest GUI workflow
+## Legacy Simulator GUI
 
 1. Run the app:
 

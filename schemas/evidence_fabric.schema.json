@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rdbiotech.org/schemas/oncoforge/evidence-fabric-v1.json",
+  "title": "OncoForge Evidence Fabric",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "project_id", "entities", "sources", "assertions"],
+  "properties": {
+    "schema_version": {"const": "oncoforge.evidence.v1"},
+    "project_id": {"type": "string", "minLength": 3, "pattern": "^[^:]+:.+$"},
+    "entities": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/entity"}
+    },
+    "sources": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/source"}
+    },
+    "assertions": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/assertion"}
+    },
+    "fabric_hash": {"$ref": "#/$defs/sha256"},
+    "input_file_hash": {"anyOf": [{"$ref": "#/$defs/sha256"}, {"const": ""}]}
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^(sha256:)?[0-9a-f]{64}$"
+    },
+    "entity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entity_id", "kind", "label"],
+      "properties": {
+        "entity_id": {"type": "string", "pattern": "^[^:]+:.+$"},
+        "kind": {
+          "enum": [
+            "CancerType", "TumorSubtype", "Sample", "Clone", "CellState", "NormalCellType",
+            "Gene", "Transcript", "Isoform", "Mutation", "CopyNumberEvent", "Protein",
+            "ProteinComplex", "ProteinSurfaceTarget", "PostTranslationalModification", "HLAAllele",
+            "Peptide", "Neoantigen", "Protease", "ProteaseSubstrate", "Enzyme", "Metabolite",
+            "Pathway", "Dependency", "SyntheticLethalPair", "ImmuneCell", "Ligand", "Receptor",
+            "SpatialNiche", "Drug", "Binder", "Degrader", "Prodrug", "TherapeuticModality",
+            "ResistanceState", "Experiment", "Publication"
+          ]
+        },
+        "label": {"type": "string", "minLength": 1},
+        "identifiers": {"type": "object", "additionalProperties": {"type": "string"}},
+        "aliases": {"type": "array", "items": {"type": "string"}},
+        "attributes": {"type": "object"}
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "title", "source_type", "version", "content_hash"],
+      "properties": {
+        "source_id": {"type": "string", "pattern": "^[^:]+:.+$"},
+        "title": {"type": "string", "minLength": 1},
+        "source_type": {"enum": ["dataset", "publication", "experiment", "model", "synthetic_fixture"]},
+        "version": {"type": "string", "minLength": 1},
+        "content_hash": {"$ref": "#/$defs/sha256"},
+        "uri": {"type": "string"},
+        "accessed_on": {"type": "string"},
+        "license_note": {"type": "string"},
+        "transformation_history": {"type": "array", "items": {"type": "string"}},
+        "identifier_mapping": {"type": "object", "additionalProperties": {"type": "string"}}
+      }
+    },
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "cancer_type": {"type": "string"},
+        "tumor_subtype": {"type": "string"},
+        "sample_id": {"type": "string"},
+        "cell_type": {"type": "string"},
+        "clone_id": {"type": "string"},
+        "tissue": {"type": "string"},
+        "assay": {"type": "string"},
+        "model_system": {"type": "string"}
+      }
+    },
+    "assertion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assertion_id", "subject_id", "relation", "source_id", "evidence_class",
+        "claim_category", "value"
+      ],
+      "properties": {
+        "assertion_id": {"type": "string", "pattern": "^[^:]+:.+$"},
+        "subject_id": {"type": "string", "pattern": "^[^:]+:.+$"},
+        "relation": {"type": "string", "minLength": 1},
+        "object_id": {"type": "string"},
+        "value": {},
+        "unit": {"type": "string"},
+        "direction": {"type": "string"},
+        "context": {"$ref": "#/$defs/context"},
+        "source_id": {"type": "string", "pattern": "^[^:]+:.+$"},
+        "source_record_id": {"type": "string"},
+        "observed_on": {"type": "string"},
+        "evidence_class": {
+          "enum": [
+            "experimentally_validated", "clinical_observation", "patient_multiomics",
+            "functional_screen", "proteomic_detection", "immunopeptidomic_detection",
+            "transcriptomic_observation", "predicted_structure", "computational_prediction",
+            "literature_inference", "mechanistic_hypothesis", "synthetic_fixture"
+          ]
+        },
+        "claim_category": {"enum": ["MEASURED", "DERIVED", "PREDICTED", "INFERRED", "HYPOTHESIZED", "SIMULATED"]},
+        "statistics": {"type": "object"},
+        "limitations": {"type": "array", "items": {"type": "string"}},
+        "contradicts": {"type": "array", "items": {"type": "string"}},
+        "provenance": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

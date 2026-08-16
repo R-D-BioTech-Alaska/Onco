@@ -1,6 +1,6 @@
 # QSA Integration Contract
 
-QSA is the optional structural quantum execution layer for OncoForge. It should accelerate and organize bounded hypothesis search, not replace the biological simulator and not create clinical claims.
+QSA is the optional structural quantum execution layer for OncoForge. It may organize or validate bounded mathematical workloads, but it does not replace biological evidence and may not claim acceleration until an information-identical benchmark demonstrates it.
 
 OncoForge sends QSA a compact workload:
 
@@ -24,7 +24,21 @@ Do not build a global statevector unless the workload actually requires one.
 
 For OncoForge, that means marker/candidate search starts as independent or lightly coupled components. If a job becomes globally entangled, too wide, or too expensive, the adapter rejects it or falls back through an explicit exact route. It must not silently approximate.
 
-## Current Local Contract
+## Current Target Forge Adapter
+
+The implemented adapter is:
+
+```text
+oncoforge/core/onco_qsa.py
+```
+
+Target Forge first evaluates every gate with the exact classical bitset engine and identifies the Pareto class. The QSA adapter then certifies whether the candidate state space is exactly representable as marked and unmarked permutation-symmetric count classes. Eligible work executes with `qsa.SymmetryState`; ineligible, unavailable, or mismatched work fails closed to the retained classical result.
+
+Every receipt records candidate/marked/padded counts, qubits, class counts, oracle hash, QSA runtime version, iterations, expected and observed marked probability, analytic error, classical control hashes, fallback state, and a deterministic receipt hash.
+
+Version 1 does not claim a search advantage because oracle compilation enumerates all candidates classically. The QSA result validates exact compressed amplitude evolution; it does not validate target biology.
+
+## Legacy Simulation Strategy Contract
 
 The local module is:
 
@@ -50,7 +64,7 @@ objective_terms
 scope_notice
 ```
 
-If no QSA backend is attached, `run_quantum_strategy()` uses a deterministic structural fallback scorer. This keeps the API testable now and lets the QSA bridge arrive later without changing portal payloads.
+If no QSA backend is attached, `run_quantum_strategy()` uses a deterministic structural fallback scorer. This older profile/cocktail strategy path is separate from the implemented Target Forge `SymmetryState` receipt.
 
 ## Backend Adapter Function
 
@@ -164,4 +178,3 @@ clear rejection on unsupported work
 ```
 
 This keeps the portal from depending on internal code shape across separate repositories.
-

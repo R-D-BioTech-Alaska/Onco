@@ -1,0 +1,35 @@
+{
+  "schema_version": "oncoforge.system_map.v1",
+  "audited_on": "2026-08-15",
+  "components": [
+    {"id": "cell_simulation", "scientific_status": "synthetic_conceptual_model", "decision": "retain_in_simulation_lane"},
+    {"id": "cancer_profiles", "scientific_status": "literature_inspired_abstraction", "decision": "retain_for_synthetic_work"},
+    {"id": "automation", "scientific_status": "reproducible_software_workflow", "decision": "retain"},
+    {"id": "portal_mission_api", "scientific_status": "working_transport_for_conceptual_simulation", "decision": "retain"},
+    {"id": "evidence_fabric", "scientific_status": "working_evidence_infrastructure", "decision": "foundation"},
+    {"id": "tumor_research_model", "scientific_status": "working_typed_intermediate_representation", "decision": "foundation"},
+    {"id": "target_forge", "scientific_status": "working_discovery_algorithm_evidence_dependent", "decision": "extend_with_real_adapters_and_validation"},
+    {"id": "qsa_gate_receipt", "scientific_status": "exact_structural_computation_no_advantage_claimed", "decision": "retain_optional_fail_closed"},
+    {"id": "target_forge_api", "scientific_status": "working_authenticated_bounded_interface", "decision": "connect_to_website_sessions"}
+  ],
+  "vertical_slice": [
+    "evidence_fabric",
+    "tumor_research_model",
+    "exact_bitset_gate_search",
+    "normal_tissue_exclusion",
+    "pareto_front",
+    "classical_control",
+    "optional_qsa_receipt",
+    "formal_hypothesis",
+    "cli_api_report"
+  ],
+  "next_engines": [
+    "surfaceome_data_adapters",
+    "single_cell_tumor_normal_validation",
+    "protease_activity_gates",
+    "dependency_and_synthetic_lethality",
+    "neoantigen_and_presentation",
+    "resistance_and_escape"
+  ],
+  "clinical_boundary": "Research discovery and hypothesis generation only; no diagnosis, dosing, treatment recommendation, or proof of cure."
+}

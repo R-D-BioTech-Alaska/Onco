@@ -26,6 +26,13 @@ from .core.portal_mission import PortalMissionConfig, build_portal_mission, form
 from .core.research_loop import ResearchLoopConfig, run_research_loop
 from .core.signal_interpreter import analyze_signals
 from .core.treatment_matcher import recommend_treatments
+from .core.evidence import load_evidence_fabric
+from .core.target_forge import (
+    TargetForgeConfig,
+    export_target_forge_report,
+    format_target_forge_summary,
+    run_target_forge,
+)
 
 
 def _key(name: str) -> str:
@@ -208,6 +215,31 @@ def build_parser() -> argparse.ArgumentParser:
     qsa_plan.add_argument("--max-marker-qubits", type=int, default=16)
     qsa_plan.add_argument("--max-component-states", type=int, default=4096)
     qsa_plan.add_argument("--json", default=None)
+
+    target_forge = sub.add_parser(
+        "target-forge",
+        help="Discover evidence-traceable tumor-versus-normal targets and logic gates",
+    )
+    target_forge.add_argument("--input", required=True, help="OncoForge evidence fabric JSON")
+    target_forge.add_argument("--output", default="outputs/target_forge/report.json")
+    target_forge.add_argument("--min-tumor-coverage", type=float, default=0.60)
+    target_forge.add_argument("--min-clone-coverage", type=float, default=0.50)
+    target_forge.add_argument("--max-normal-activation", type=float, default=0.05)
+    target_forge.add_argument("--max-critical-normal-activation", type=float, default=0.0)
+    target_forge.add_argument("--max-unknown-normal-fraction", type=float, default=0.0)
+    target_forge.add_argument("--max-unknown-clone-fraction", type=float, default=0.0)
+    target_forge.add_argument("--max-targets", type=int, default=16)
+    target_forge.add_argument("--max-candidates", type=int, default=1500)
+    target_forge.add_argument("--max-results", type=int, default=50)
+    target_forge.add_argument("--require-dependency", action="store_true")
+    target_forge.add_argument("--min-dependency-support", type=float, default=0.0)
+    target_forge.add_argument("--allow-transcript-fallback", action="store_true")
+    target_forge.add_argument("--allow-missing-critical-normal-cohort", action="store_true")
+    target_forge.add_argument("--no-single", action="store_true")
+    target_forge.add_argument("--no-and", action="store_true")
+    target_forge.add_argument("--no-or", action="store_true")
+    target_forge.add_argument("--no-and-not", action="store_true")
+    target_forge.add_argument("--no-qsa", action="store_true")
 
     portal = sub.add_parser("portal-session", help="Build a full webpage-ready OncoForge mission payload")
     portal.add_argument("--profile", required=True)
@@ -394,6 +426,39 @@ def main(argv: list[str] | None = None) -> int:
             out.parent.mkdir(parents=True, exist_ok=True)
             out.write_text(json.dumps({"request": request.to_dict(), "result": result}, indent=2, sort_keys=True), encoding="utf-8")
             print(f"JSON: {out}")
+        return 0
+
+    if args.command == "target-forge":
+        fabric = load_evidence_fabric(args.input)
+        config = TargetForgeConfig.from_dict(
+            {
+                "min_tumor_coverage": args.min_tumor_coverage,
+                "min_clone_coverage": args.min_clone_coverage,
+                "max_normal_activation": args.max_normal_activation,
+                "max_critical_normal_activation": args.max_critical_normal_activation,
+                "max_unknown_normal_fraction": args.max_unknown_normal_fraction,
+                "max_unknown_clone_fraction": args.max_unknown_clone_fraction,
+                "max_targets": args.max_targets,
+                "max_candidates": args.max_candidates,
+                "max_results": args.max_results,
+                "require_dependency": args.require_dependency,
+                "min_dependency_support": args.min_dependency_support,
+                "allow_transcript_fallback": args.allow_transcript_fallback,
+                "require_critical_normal_samples": not args.allow_missing_critical_normal_cohort,
+                "include_single_targets": not args.no_single,
+                "include_and": not args.no_and,
+                "include_or": not args.no_or,
+                "include_and_not": not args.no_and_not,
+                "use_qsa": not args.no_qsa,
+            }
+        )
+        report = run_target_forge(fabric, config)
+        output = Path(args.output)
+        if not output.is_absolute():
+            output = Path.cwd() / output
+        export_target_forge_report(report, output)
+        print(format_target_forge_summary(report))
+        print(f"Export: {output}")
         return 0
 
     if args.command == "portal-session":

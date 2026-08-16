@@ -1,5 +1,7 @@
 # Webpage Build Packet For OncoForge
 
+This packet describes the legacy conceptual mission simulator. For the website-first evidence and Target Forge portal, `website/ONCOFORGE_VNEXT_WEBSITE_PROMPT.md` is authoritative.
+
 This is the exact website handoff for turning `/lab/oncoforge/` into the OncoForge portal front door.
 
 The current public page can remain the overview. Add the authenticated portal under:

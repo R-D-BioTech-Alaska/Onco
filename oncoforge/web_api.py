@@ -20,6 +20,8 @@ from wsgiref.simple_server import make_server
 
 from .core.cancer_profiles import SCOPE_NOTICE, find_cancer_profile, load_cancer_profiles
 from .core.portal_mission import PORTAL_PAYLOAD_VERSION, PortalMissionConfig, build_portal_mission
+from .core.evidence import EvidenceFabric
+from .core.target_forge import TargetForgeConfig, run_target_forge
 
 
 API_VERSION = "oncoforge.api.v1"
@@ -31,6 +33,7 @@ LOG = logging.getLogger("oncoforge.web_api")
 @dataclass(frozen=True)
 class PortalAPILimits:
     max_body_bytes: int = 65536
+    max_target_forge_body_bytes: int = 2097152
     max_steps: int = 1000
     max_healthy_cells: int = 5000
     max_cancer_cells: int = 2500
@@ -40,10 +43,18 @@ class PortalAPILimits:
     max_qsa_candidates: int = 24
     max_marker_qubits: int = 24
     max_component_states: int = 20000
+    max_evidence_entities: int = 5000
+    max_evidence_assertions: int = 100000
+    max_target_forge_samples: int = 2000
+    max_target_forge_input_targets: int = 256
+    max_target_forge_targets: int = 24
+    max_target_forge_candidates: int = 4000
+    max_target_forge_results: int = 100
 
     def to_dict(self) -> Dict[str, int]:
         return {
             "max_body_bytes": self.max_body_bytes,
+            "max_target_forge_body_bytes": self.max_target_forge_body_bytes,
             "max_steps": self.max_steps,
             "max_healthy_cells": self.max_healthy_cells,
             "max_cancer_cells": self.max_cancer_cells,
@@ -53,6 +64,13 @@ class PortalAPILimits:
             "max_qsa_candidates": self.max_qsa_candidates,
             "max_marker_qubits": self.max_marker_qubits,
             "max_component_states": self.max_component_states,
+            "max_evidence_entities": self.max_evidence_entities,
+            "max_evidence_assertions": self.max_evidence_assertions,
+            "max_target_forge_samples": self.max_target_forge_samples,
+            "max_target_forge_input_targets": self.max_target_forge_input_targets,
+            "max_target_forge_targets": self.max_target_forge_targets,
+            "max_target_forge_candidates": self.max_target_forge_candidates,
+            "max_target_forge_results": self.max_target_forge_results,
         }
 
 
@@ -300,6 +318,13 @@ class PortalAPI:
             self._require_auth(environ)
             mission_id = path.rsplit("/", 1)[-1]
             return self._get_mission(mission_id, environ, start_response)
+        if method == "POST" and path == "/target-forge/runs":
+            self._require_auth(environ)
+            return self._create_target_forge_run(environ, start_response)
+        if method == "GET" and path.startswith("/target-forge/runs/"):
+            self._require_auth(environ)
+            run_id = path.rsplit("/", 1)[-1]
+            return self._get_target_forge_run(run_id, environ, start_response)
         raise PortalRequestError("Endpoint not found", "404 Not Found")
 
     def _require_auth(self, environ: Dict[str, Any]) -> None:
@@ -311,7 +336,7 @@ class PortalAPI:
         if not supplied or not hmac.compare_digest(supplied, self.config.api_key):
             raise PortalRequestError("Unauthorized", "401 Unauthorized")
 
-    def _read_json(self, environ: Dict[str, Any]) -> Dict[str, Any]:
+    def _read_json(self, environ: Dict[str, Any], max_bytes: int | None = None) -> Dict[str, Any]:
         content_type = str(environ.get("CONTENT_TYPE", "")).split(";", 1)[0].strip().lower()
         if content_type != "application/json":
             raise PortalRequestError("Content-Type must be application/json", "415 Unsupported Media Type")
@@ -322,9 +347,10 @@ class PortalAPI:
             length = int(raw_length)
         except ValueError as exc:
             raise PortalRequestError("Invalid Content-Length") from exc
-        if length < 1 or length > self.config.limits.max_body_bytes:
+        limit = int(max_bytes or self.config.limits.max_body_bytes)
+        if length < 1 or length > limit:
             raise PortalRequestError(
-                f"Request body must be between 1 and {self.config.limits.max_body_bytes} bytes",
+                f"Request body must be between 1 and {limit} bytes",
                 "413 Payload Too Large",
             )
         body = environ["wsgi.input"].read(length)
@@ -361,6 +387,108 @@ class PortalAPI:
         path = self.config.output_dir / mission_id / "response.json"
         if not path.is_file():
             raise PortalRequestError("Mission not found", "404 Not Found")
+        return self._json(start_response, "200 OK", json.loads(path.read_text(encoding="utf-8")), environ)
+
+    def _create_target_forge_run(
+        self,
+        environ: Dict[str, Any],
+        start_response: Callable,
+    ) -> Iterable[bytes]:
+        payload = self._read_json(environ, self.config.limits.max_target_forge_body_bytes)
+        unknown = sorted(set(payload) - {"evidence", "config"})
+        if unknown:
+            raise PortalRequestError("Unknown fields: " + ", ".join(unknown))
+        evidence_data = payload.get("evidence")
+        config_data = payload.get("config", {})
+        if not isinstance(evidence_data, dict):
+            raise PortalRequestError("evidence must be an object")
+        if not isinstance(config_data, dict):
+            raise PortalRequestError("config must be an object")
+        allowed_config = set(TargetForgeConfig().__dict__)
+        unknown_config = sorted(set(config_data) - allowed_config)
+        if unknown_config:
+            raise PortalRequestError("Unknown config fields: " + ", ".join(unknown_config))
+
+        entities = evidence_data.get("entities", [])
+        assertions = evidence_data.get("assertions", [])
+        if not isinstance(entities, list) or not isinstance(assertions, list):
+            raise PortalRequestError("evidence entities and assertions must be arrays")
+        limits = self.config.limits
+        if len(entities) > limits.max_evidence_entities:
+            raise PortalRequestError("evidence entity limit exceeded", "422 Unprocessable Entity")
+        if len(assertions) > limits.max_evidence_assertions:
+            raise PortalRequestError("evidence assertion limit exceeded", "422 Unprocessable Entity")
+        sample_count = sum(
+            1 for row in entities if isinstance(row, dict) and row.get("kind") == "Sample"
+        )
+        if sample_count > limits.max_target_forge_samples:
+            raise PortalRequestError("target-forge sample limit exceeded", "422 Unprocessable Entity")
+        target_count = sum(
+            1
+            for row in entities
+            if isinstance(row, dict)
+            and row.get("kind") in {"Gene", "Protein", "ProteinSurfaceTarget", "Receptor"}
+        )
+        if target_count > limits.max_target_forge_input_targets:
+            raise PortalRequestError("target-forge input target limit exceeded", "422 Unprocessable Entity")
+
+        for key in (
+            "require_dependency",
+            "require_critical_normal_samples",
+            "allow_transcript_fallback",
+            "include_single_targets",
+            "include_and",
+            "include_or",
+            "include_and_not",
+            "use_qsa",
+        ):
+            if key in config_data and not isinstance(config_data[key], bool):
+                raise PortalRequestError(f"config.{key} must be true or false")
+        clean_config = dict(config_data)
+        clean_config.setdefault("qsa_max_logical_states", limits.max_component_states)
+        try:
+            config = TargetForgeConfig.from_dict(clean_config)
+        except (TypeError, ValueError) as exc:
+            raise PortalRequestError(str(exc), "422 Unprocessable Entity") from exc
+        bounded = (
+            ("max_targets", config.max_targets, limits.max_target_forge_targets),
+            ("max_candidates", config.max_candidates, limits.max_target_forge_candidates),
+            ("max_results", config.max_results, limits.max_target_forge_results),
+            ("qsa_max_logical_states", config.qsa_max_logical_states, limits.max_component_states),
+        )
+        for name, value, maximum in bounded:
+            if value > maximum:
+                raise PortalRequestError(
+                    f"config.{name} cannot exceed {maximum}",
+                    "422 Unprocessable Entity",
+                )
+        try:
+            fabric = EvidenceFabric.from_dict(evidence_data)
+            report = run_target_forge(fabric, config)
+        except (TypeError, ValueError) as exc:
+            raise PortalRequestError(str(exc), "422 Unprocessable Entity") from exc
+
+        run_id = uuid4().hex
+        public = {"ok": True, "run_id": run_id, "report": report}
+        run_dir = self.config.output_dir / "target_forge" / run_id
+        run_dir.mkdir(parents=True, exist_ok=True)
+        (run_dir / "response.json").write_text(
+            json.dumps(public, indent=2, sort_keys=True),
+            encoding="utf-8",
+        )
+        return self._json(start_response, "201 Created", public, environ)
+
+    def _get_target_forge_run(
+        self,
+        run_id: str,
+        environ: Dict[str, Any],
+        start_response: Callable,
+    ) -> Iterable[bytes]:
+        if not MISSION_ID_PATTERN.fullmatch(run_id):
+            raise PortalRequestError("Invalid target-forge run id", "404 Not Found")
+        path = self.config.output_dir / "target_forge" / run_id / "response.json"
+        if not path.is_file():
+            raise PortalRequestError("Target-forge run not found", "404 Not Found")
         return self._json(start_response, "200 OK", json.loads(path.read_text(encoding="utf-8")), environ)
 
     def _cors_headers(self, environ: Dict[str, Any]) -> List[Tuple[str, str]]:

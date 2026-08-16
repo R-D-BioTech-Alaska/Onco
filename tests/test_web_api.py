@@ -8,6 +8,9 @@ from wsgiref.util import setup_testing_defaults
 from oncoforge.web_api import PortalAPI, PortalAPIConfig
 
 
+TARGET_FIXTURE = Path(__file__).resolve().parents[1] / "examples" / "target_forge_synthetic.json"
+
+
 def call_api(app, method, path, payload=None, api_key=""):
     body = b"" if payload is None else json.dumps(payload).encode("utf-8")
     environ = {}
@@ -124,6 +127,46 @@ class WebAPITests(unittest.TestCase):
 
         self.assertEqual(response["status"], "422 Unprocessable Entity")
         self.assertIn("cell-step workload", response["json"]["error"])
+
+    def test_authenticated_target_forge_run_can_be_created_and_loaded(self):
+        evidence = json.loads(TARGET_FIXTURE.read_text(encoding="utf-8"))
+        with tempfile.TemporaryDirectory() as tmp:
+            app = PortalAPI(PortalAPIConfig(api_key="test-key", output_dir=Path(tmp)))
+            created = call_api(
+                app,
+                "POST",
+                "/lab/oncoforge/api/target-forge/runs",
+                {"evidence": evidence, "config": {"use_qsa": False}},
+                api_key="test-key",
+            )
+            run_id = created["json"]["run_id"]
+            loaded = call_api(
+                app,
+                "GET",
+                f"/lab/oncoforge/api/target-forge/runs/{run_id}",
+                api_key="test-key",
+            )
+
+        self.assertEqual(created["status"], "201 Created")
+        self.assertEqual(created["json"]["report"]["tumor_model"]["origin"], "synthetic_fixture")
+        self.assertEqual(len(created["json"]["report"]["pareto_candidate_ids"]), 2)
+        self.assertEqual(loaded["status"], "200 OK")
+        self.assertEqual(loaded["json"]["run_id"], run_id)
+
+    def test_target_forge_run_rejects_unbounded_gate_search(self):
+        evidence = json.loads(TARGET_FIXTURE.read_text(encoding="utf-8"))
+        with tempfile.TemporaryDirectory() as tmp:
+            app = PortalAPI(PortalAPIConfig(api_key="test-key", output_dir=Path(tmp)))
+            response = call_api(
+                app,
+                "POST",
+                "/lab/oncoforge/api/target-forge/runs",
+                {"evidence": evidence, "config": {"max_candidates": 100000}},
+                api_key="test-key",
+            )
+
+        self.assertEqual(response["status"], "422 Unprocessable Entity")
+        self.assertIn("max_candidates", response["json"]["error"])
 
 
 if __name__ == "__main__":

@@ -44,3 +44,13 @@ export function getOncoForgeMission(missionId) {
   return oncoforgeRequest(`/portal/missions/${encodeURIComponent(missionId)}`);
 }
 
+export function runTargetForge(evidence, config = {}) {
+  return oncoforgeRequest("/target-forge/runs", {
+    method: "POST",
+    body: JSON.stringify({ evidence, config }),
+  });
+}
+
+export function getTargetForgeRun(runId) {
+  return oncoforgeRequest(`/target-forge/runs/${encodeURIComponent(runId)}`);
+}

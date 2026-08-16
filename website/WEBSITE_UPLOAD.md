@@ -23,8 +23,11 @@ Account creation, password storage, email verification, password reset, rate lim
 ```text
 oncoforge-client.js             browser-side API client
 mission-request.example.json    complete first-mission request
+../examples/target_forge_synthetic.json  synthetic Target Forge demonstration input
+../schemas/evidence_fabric.schema.json   browser and server evidence-shape contract
 oncoforge.env.example           private Python service configuration
 ../docs/WEBPAGE_BUILD_PACKET.md page routes, components, controls, and safety copy
+ONCOFORGE_VNEXT_WEBSITE_PROMPT.md complete website-window implementation prompt
 ```
 
 ## Python Service
@@ -34,6 +37,8 @@ The deployable WSGI application is:
 ```text
 oncoforge.web_api:application
 ```
+
+Install the service with `python -m pip install .` or `python -m pip install ".[qsa]"` when the compatible QSA runtime is licensed and enabled on that host. If QSA is absent, the API returns the exact classical result with an explicit fallback receipt.
 
 For a local connection test only:
 
@@ -62,9 +67,11 @@ GET  /lab/oncoforge/api/profiles
 GET  /lab/oncoforge/api/profiles/{profile_id}
 POST /lab/oncoforge/api/portal/missions
 GET  /lab/oncoforge/api/portal/missions/{mission_id}
+POST /lab/oncoforge/api/target-forge/runs
+GET  /lab/oncoforge/api/target-forge/runs/{run_id}
 ```
 
-The health and profile routes are public. Mission creation and retrieval require the private API key. The website proxy must also require a valid user session before forwarding either mission route.
+The health and profile routes are public. Mission and Target Forge creation/retrieval require the private API key. The website proxy must also require a valid user session and enforce per-account run ownership before forwarding these routes.
 
 ## Portal Connection
 
@@ -74,10 +81,12 @@ Copy `oncoforge-client.js` into the website source and import only the calls the
 import {
   listOncoForgeProfiles,
   runOncoForgeMission,
+  runTargetForge,
 } from "./oncoforge-client.js";
 
 const profileData = await listOncoForgeProfiles();
 const result = await runOncoForgeMission(missionFormValues);
+const targetRun = await runTargetForge(evidenceFabric, targetForgeConfig);
 ```
 
 Render `result.stage_cards` first. The detailed panels use:
@@ -94,9 +103,10 @@ result.hypothesis_index
 
 Show `result.scope_notice` beside every scientific result panel.
 
+Target Forge returns `{ ok, run_id, report }`. Render `report.hypotheses` and `report.gate_candidates` without inventing a combined score. Keep tumor coverage, clone coverage, normal activation, critical-normal activation, missing normal evidence, evidence classes, rejection reasons, and Pareto status as separate fields. The QSA inspector uses `report.qsa_receipt` and must show its advantage assessment verbatim.
+
 ## Required Server Controls
 
 The Python API already rejects oversized bodies, unbounded cell-step workloads, unsafe output paths, oversized QSA requests, missing authentication, and malformed fields. The website must also apply per-account rate limits and prevent one account from retrieving another account's mission ID.
 
 Do not add patient medical records, treatment instructions, clinical predictions, or claims that a simulation found a cure.
-

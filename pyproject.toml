@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "oncoforge"
-version = "0.6.0"
-description = "Conceptual cancer-systems simulator for hypothesis exploration."
+version = "0.7.0"
+description = "Evidence-governed cancer target discovery and conceptual systems research engine."
 readme = "README.md"
 requires-python = ">=3.10"
 authors = [
@@ -19,6 +19,9 @@ classifiers = [
   "Topic :: Scientific/Engineering",
 ]
 dependencies = []
+
+[project.optional-dependencies]
+qsa = ["qubit-state-algebra>=0.1.7,<0.3"]
 
 [project.scripts]
 oncoforge = "oncoforge.cli:main"

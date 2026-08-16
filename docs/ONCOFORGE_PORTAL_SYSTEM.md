@@ -1,5 +1,7 @@
 # OncoForge Portal System
 
+The implemented Target Forge API and current website-first build contract are documented in `website/ONCOFORGE_VNEXT_WEBSITE_PROMPT.md`. The mission-simulator architecture below remains available as a separate conceptual simulation lane.
+
 OncoForge should become a public GitHub-backed cancer-systems research portal while keeping the current Python simulator clean, inspectable, and standard-library friendly.
 
 Core rule:

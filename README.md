@@ -1,8 +1,41 @@
 # OncoForge
 
-OncoForge is an interactive cancer-systems simulator for conceptual research, hypothesis exploration, and education. It models cancer cells as abnormal signal generators and proteins, enzymes, immune mechanisms, and synthetic agents as signal readers with action mechanisms.
+OncoForge is an evidence-governed cancer target discovery engine and conceptual cancer-systems research platform. Its website API runs typed tumor-versus-normal target discovery, multi-signal gate search, provenance tracking, bounded QSA structural checks, and the existing synthetic simulation workflows.
 
-OncoForge is not a clinical predictor, not medical advice, and not a treatment recommendation system. Its rules are qualitative abstractions intended for mechanism thinking and software experimentation.
+OncoForge is not a clinical predictor, medical advice, proof of safety or efficacy, or a treatment recommendation system. Computational candidates are research hypotheses that require independent measurement and experimental validation. The older cell simulator remains a separate synthetic lane whose hand-authored parameters are never treated as biological evidence.
+
+## Evidence-Governed Target Forge
+
+Target Forge accepts an `oncoforge.evidence.v1` evidence fabric and performs one connected research workflow:
+
+```text
+evidence validation and provenance
+  -> tumor/clone/patient and normal-tissue model
+  -> exact target activation matrices
+  -> SINGLE, AND, OR, and AND NOT gate search
+  -> hard tumor-coverage and normal-safety rules
+  -> Pareto hypotheses
+  -> fair classical control and optional QSA receipt
+  -> auditable JSON or HTML report
+```
+
+It preserves evidence classes and `MEASURED`, `DERIVED`, `PREDICTED`, `INFERRED`, `HYPOTHESIZED`, and `SIMULATED` labels instead of collapsing them into a fake probability of truth. Missing critical-normal evidence fails closed.
+
+Run the labeled synthetic fixture:
+
+```bash
+python run_oncoforge.py target-forge --input examples/target_forge_synthetic.json --output outputs/target_forge/report.json
+```
+
+The schema is in `schemas/evidence_fabric.schema.json`. The fixture is software-test data only and makes no biological claim.
+
+QSA is optional. Install the compatible QSA runtime when the service should execute the certified class check:
+
+```bash
+python -m pip install ".[qsa]"
+```
+
+Without QSA, Target Forge retains the exact classical result and records a classical fallback receipt.
 
 ## What It Models
 
@@ -37,13 +70,13 @@ On Windows, if `python` opens the Microsoft Store stub, use `py` instead:
 py run_oncoforge.py
 ```
 
-## Run The GUI
+## Run The Legacy Simulator GUI
 
 ```bash
 python run_oncoforge.py
 ```
 
-The GUI includes:
+This interface is retained for synthetic simulation work; the new evidence discovery system belongs in the website portal. The legacy GUI includes:
 
 - Dark desktop theme with higher-contrast text, tables, tabs, and canvas views.
 - Automated Run tab with workflow profiles, one-click simulation, export, saved experiment creation, optional cocktail comparison, and optional cocktail auto-selection.
@@ -124,7 +157,7 @@ Names are matched leniently, so `full_conceptual_swarm` resolves to `Full concep
 
 ## Website Portal API
 
-OncoForge includes a small WSGI API so the website can use the same Python mission engine without copying simulation logic into JavaScript.
+The website portal is the primary interface for the new discovery system. OncoForge includes a small WSGI API so the logged-in website uses the same Python evidence, Target Forge, QSA, and simulation engines without copying scientific logic into JavaScript.
 
 Local connection test:
 
@@ -135,7 +168,7 @@ python run_oncoforge.py serve-api --host 127.0.0.1 --port 8765
 
 The deployable WSGI application is `oncoforge.web_api:application`. Mission endpoints fail closed until `ONCOFORGE_API_KEY` is configured. The website server must keep that key private, verify the user's website session, and proxy mission requests to OncoForge.
 
-The complete upload handoff is in `website/WEBSITE_UPLOAD.md`. The portal remains a conceptual research system and does not store patient records or provide treatment instructions.
+Protected Target Forge routes are `POST /lab/oncoforge/api/target-forge/runs` and `GET /lab/oncoforge/api/target-forge/runs/{run_id}`. The complete website handoff is in `website/ONCOFORGE_VNEXT_WEBSITE_PROMPT.md` and `website/WEBSITE_UPLOAD.md`. The portal does not store passwords or patient records and does not provide treatment instructions.
 
 ## Adaptive Dosing And Remission Testing
 
@@ -215,7 +248,7 @@ CSV exports contain the analytics history.
 
 ## Automated Workflows
 
-The desktop app's Automated Run tab is the easiest path for non-technical use:
+For legacy synthetic simulation, the desktop app's Automated Run tab provides a guided workflow:
 
 1. Choose a workflow profile such as `Fast triage`, `Balanced exploration`, or `Best cocktail scout`.
 2. Adjust the preset, cocktail, counts, steps, seed, or output folder only if needed.

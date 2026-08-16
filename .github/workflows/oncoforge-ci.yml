@@ -40,4 +40,5 @@ jobs:
           python run_oncoforge.py recommend-cocktail --profile melanoma_cutaneous
           python run_oncoforge.py qsa-plan --profile melanoma_cutaneous --json outputs/reports/qsa_plan.json
           python run_oncoforge.py portal-session --profile melanoma_cutaneous --steps 5 --healthy 20 --cancer 6 --json outputs/portal/web_payload.json
+          python run_oncoforge.py target-forge --input examples/target_forge_synthetic.json --output outputs/target_forge/ci-report.json --no-qsa
           python run_oncoforge.py serve-api --help
