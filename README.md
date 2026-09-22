@@ -324,6 +324,4 @@ OncoForge/
 - Speculative and user-concept agents are included for exploration, not claims.
 - Repeated seeds, parameter sweeps, and sensitivity analysis are necessary before interpreting any pattern.
 
-## Development Roadmap
-
-See `ROADMAP.md` for recommended next work.
+***If you would like access to Onco please submit an email or request from the site.***
