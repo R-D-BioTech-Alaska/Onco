@@ -1,4 +1,18 @@
-# OncoForge
+<div align="center">
+  <h1>ONCOFORGE</h1>
+  <h3>ADVANCED ONCOLOGY RESEARCH PLATFORM</h3>
+  <hr width="65%">
+</div>
+<p align="center">
+Access the OncoForge platform below:
+</p>
+<p align="center">
+  <a href="https://rdbiotech-alaska.brenton-cart-3224.chatgpt.site/lab/oncoforge/login/">
+    <strong>⚡Login to OncoForge</strong>
+  </a>
+</p>
+<p align="center"> OncoForge Uses ChatGPT login connectors to make logging in easier if you want. It does not use ChatGPT for anything other than an added way to login. No information is stored or used.
+</p>
 
 OncoForge is an evidence-governed cancer target discovery engine and conceptual cancer-systems research platform. Its website API runs typed tumor-versus-normal target discovery, multi-signal gate search, provenance tracking, bounded QSA structural checks, and the existing synthetic simulation workflows.
 
